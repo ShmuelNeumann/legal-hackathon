@@ -10,6 +10,3 @@ root.geometry("350x200")
 # execute the gui
 root.mainloop()
 #comment
-
-if "state" == 'confused':
-    print("Help!")
