@@ -1,3 +1,4 @@
 import tkinter
 
-print('test')
+if "state" == 'confused':
+    print("Help!")
