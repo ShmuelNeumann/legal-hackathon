@@ -9,7 +9,7 @@ def init_Text_Compare():
         Output:
             The ML model.
     """
-    return SentenceTransformer('all-MiniLM-L6-v2')
+    return SentenceTransformer('all-mpnet-base-v2')
 
 def text_Compare(model, text1, text2):
     """
