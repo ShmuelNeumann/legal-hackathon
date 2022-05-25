@@ -5,7 +5,7 @@ try:
     while True:
 
         # Two lists of sentences
-        sentences1 = [str(input("Enter first text\n"))]
+        sentences1 = [str(input("\n\nEnter first text\n"))]
 
         sentences2 = [str(input("Enter second text\n"))]
 
