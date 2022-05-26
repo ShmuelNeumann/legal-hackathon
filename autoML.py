@@ -59,9 +59,28 @@ from sentence_transformers import SentenceTransformer, util
 from PIL import Image
 
 def init_general_image_compare():
+    """
+        Description:
+            The function to return the ML model. Note that this function can take a long time to run
+        Inputs:
+            NA
+        Output:
+            The ML model.
+    """
     return SentenceTransformer('clip-ViT-B-32')
 
 def general_image_compare(model, path1, path2):
+    """
+        Description:
+            This function compares two images using a form of ML.
+        Inputs:
+            model: The ML model to use, which should be the output of init_general_image_compare.
+            path1: The first image path, as a raw string, to compare from.
+            path2: The second image path, as a raw string, to compare to.
+        Output:
+            A rounded float from 0.0-1.0, which represents the probability.
+    """    
+    
     img_emb = model.encode(Image.open(path1))
 
     #Encode text descriptions
