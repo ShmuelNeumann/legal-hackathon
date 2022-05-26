@@ -1,6 +1,8 @@
+#### Text Compare ####
+
 from sentence_transformers import SentenceTransformer, util
 
-def init_Text_Compare():
+def init_text_compare():
     """
         Description:
             The function to return the ML model. Note that this function can take a long time to run
@@ -11,7 +13,7 @@ def init_Text_Compare():
     """
     return SentenceTransformer('all-mpnet-base-v2')
 
-def text_Compare(model, text1, text2):
+def text_compare(model, text1, text2):
     """
         Description:
             This function compares two texts using NLP embedding, a form of ML.
@@ -37,21 +39,54 @@ def text_Compare(model, text1, text2):
 
     return output
 
-def main():
+def run_text_compare():
 
-    model = init_Text_Compare()
+    model = init_text_compare()
 
     try:
         while True:
             text1 = input("\nEnter the first text:\n")
             text2 = input("Enter the second text:\n")
 
-            print(f'Similarity: {text_Compare(model, text1, text2)}')
+            print(f'Similarity: {text_compare(model, text1, text2)}')
 
     except KeyboardInterrupt:
         quit()
 
+#### General Image Compare ####
 
+from sentence_transformers import SentenceTransformer, util
+from PIL import Image
+
+def init_general_image_compare():
+    return SentenceTransformer('clip-ViT-B-32')
+
+def general_image_compare(model, path1, path2):
+    img_emb = model.encode(Image.open(path1))
+
+    #Encode text descriptions
+    img_emb_2 = model.encode(Image.open(path2))
+
+    #Compute cosine similarities 
+    cos_scores = util.cos_sim(img_emb, img_emb_2)
+    
+    
+    output = float("{:.4}".format(cos_scores[0][0]))
+
+    return output
+
+def run_general_image_compare():
+
+    path1 = r'C:\Users\sammy.LAPTOP-RUR693FV\Pictures\Picture1.jpg'
+    path2 = r'C:\Users\sammy.LAPTOP-RUR693FV\Pictures\Picture2.jpg'
+
+    model = init_general_image_compare()
+
+    output = general_image_compare(model, path1, path2)
+
+    print(f'Score: {output}')
+
+#### Testing ####
 
 if __name__ == '__main__':
-    main()
+    run_general_image_compare()

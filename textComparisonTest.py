@@ -1,23 +1,15 @@
 from sentence_transformers import SentenceTransformer, util
-model = SentenceTransformer('all-MiniLM-L6-v2')
+from PIL import Image
 
-try:
-    while True:
+#Load CLIP model
+model = SentenceTransformer('clip-ViT-B-32')
 
-        # Two lists of sentences
-        sentences1 = [str(input("\n\nEnter first text\n"))]
+#Encode an image:
+img_emb = model.encode(Image.open(r'C:\Users\sammy.LAPTOP-RUR693FV\Pictures\Picture1.jpg'))
 
-        sentences2 = [str(input("Enter second text\n"))]
+#Encode text descriptions
+img_emb_2 = model.encode(Image.open(r'C:\Users\sammy.LAPTOP-RUR693FV\Pictures\Picture3.jpg'))
 
-        #Compute embedding for both lists
-        embeddings1 = model.encode(sentences1, convert_to_tensor=True)
-        embeddings2 = model.encode(sentences2, convert_to_tensor=True)
-
-        #Compute cosine-similarits
-        cosine_scores = util.cos_sim(embeddings1, embeddings2)
-
-        #Output the pairs with their score
-        for i in range(len(sentences1)):
-            print("{} \t\t {} \t\t Score: {:.4f}".format(sentences1[i], sentences2[i], cosine_scores[i][i]))
-except KeyboardInterrupt:
-    quit()
+#Compute cosine similarities 
+cos_scores = util.cos_sim(img_emb, img_emb_2)
+print(cos_scores)
