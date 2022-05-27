@@ -60,7 +60,7 @@ def run_text_compare():
 from sentence_transformers import SentenceTransformer, util
 from PIL import Image
 
-def init_general_image_compare():
+def init_shape_image_compare():
     """
         Description:
             The function to return the ML model. Note that this function can take a long time to run
@@ -71,7 +71,7 @@ def init_general_image_compare():
     """
     return SentenceTransformer('clip-ViT-B-32')
 
-def general_image_compare(model, path1, path2):
+def shape_image_compare(model, path1, path2):
     """
         Description:
             This function compares two images using a form of ML.
@@ -96,14 +96,14 @@ def general_image_compare(model, path1, path2):
 
     return output
 
-def run_general_image_compare():
+def run_shape_image_compare():
 
-    path1 = r'C:\Users\sammy.LAPTOP-RUR693FV\Pictures\Picture1.jpg'
-    path2 = r'C:\Users\sammy.LAPTOP-RUR693FV\Pictures\Picture2.jpg'
+    path1 = r'C:\Users\sammy.LAPTOP-RUR693FV\OneDrive - Monash University\ML_tests\pic1.jpg'
+    path2 = r'C:\Users\sammy.LAPTOP-RUR693FV\OneDrive - Monash University\ML_tests\pic.jpg'
 
-    model = init_general_image_compare()
+    model = init_shape_image_compare()
 
-    output = general_image_compare(model, path1, path2)
+    output = shape_image_compare(model, path1, path2)
 
     print(f'Score: {output}')
 
@@ -176,4 +176,4 @@ def run_colour_identification():
 #### Testing ####
 
 if __name__ == '__main__':
-    run_colour_identification()
+    run_shape_image_compare()
