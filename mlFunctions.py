@@ -378,7 +378,7 @@ def preproccess_image_colours(path:str, noColoursToDetect:int)->list:
     colourData = get_colours(image, noColoursToDetect, False)
 
     #Remove whites and blacks
-    cleanedColourData = remove_shades(colourData, True)
+    cleanedColourData = remove_shades(colourData, False)
 
     #Weigh the rgb values
     weightedData = weigh_data(cleanedColourData)
@@ -386,7 +386,7 @@ def preproccess_image_colours(path:str, noColoursToDetect:int)->list:
     return weightedData
 
 def run_image_colour_compare():
-    #A sampl of comparing two image's colours
+    #A sample of comparing two image's colours
 
     path1 = r'C:\Users\sammy.LAPTOP-RUR693FV\OneDrive - Monash University\ML_tests\blue.jpg'
     path2 = r'C:\Users\sammy.LAPTOP-RUR693FV\OneDrive - Monash University\ML_tests\green.jpg'
