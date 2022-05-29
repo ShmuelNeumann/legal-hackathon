@@ -1,8 +1,8 @@
 import openpyxl
 import time
 from openpyxl_image_loader import SheetImageLoader
-import pathlib
 import os
+import pathlib
 
 import mlFunctions
 
@@ -36,7 +36,7 @@ def preprocess_database(databasePath, currentPath):
     entries = []
 
     for index in range(5, database.max_row+1):
-        print(index)
+        print(f'Indexing Entry {index+1} out of {database.max_row+1}')
         number = database[f'A{index}'].value
         irNumber = database[f'B{index}'].value
         
@@ -82,13 +82,19 @@ def read_database(fileSaveLocation):
 
         return [DatabaseEntry(entry) for entry in data]
 
+def checkDatabaseIndexing():
+    try:
+        with open(databaseToSaveLocation, 'r') as file:
+            return True
+    except FileNotFoundError:
+        return False
 
+def indexDatabase():
+    preprocessedData = preprocess_database(databasePath, currentPath)
+    save_database(databaseToSaveLocation, preprocessedData)
 
-# currentPath = str(pathlib.Path().resolve())
-# databasePath = r'C:\Users\sammy.LAPTOP-RUR693FV\Desktop\Code\Database.xlsx'
-# databaseToSaveLocation = currentPath + r'\database.txt'
+currentPath = str(pathlib.Path().resolve())
+databasePath = r'C:\Users\sammy.LAPTOP-RUR693FV\Desktop\Code\Database.xlsx'
+databaseToSaveLocation = currentPath + r'\database.txt'
 
-# preprocessedData = preprocess_database(databasePath, currentPath)
-
-# save_database(databaseToSaveLocation, preprocessedData)
 
