@@ -9,7 +9,7 @@ class DatabaseEntry:
     def __init__(self, inputString):
         
         inputlist = inputString.split('~')
-        
+
         self.number = inputlist[0]
         self.irNumber = inputlist[1]
         self.imagePath = inputlist[2]
@@ -27,18 +27,20 @@ def preprocess_database(databasePath, currentPath):
     
     databaseFile = openpyxl.load_workbook(databasePath)
 
-    database = databaseFile['Test']
+    database = databaseFile['Search Results']
     image_loader = SheetImageLoader(database)
 
 
 
     entries = []
+    numberOfCells = 6005
 
-    for index in range(5, database.max_row+1):
-        print(f'Preprocessing Entry {index-4} out of {database.max_row-4}')
+    for index in range(5, numberOfCells + 1):
+        print(f'Preprocessing Entry {index-4} out of {numberOfCells}')
         number = database[f'A{index}'].value
         irNumber = database[f'B{index}'].value
-        
+        if irNumber == None:
+            irNumber = ""
         try:
             image = image_loader.get(f'C{index}')
 
@@ -55,13 +57,16 @@ def preprocess_database(databasePath, currentPath):
             saveLocation = "None"
             colourData = "None"
             pass
-
+        
         words = database[f'D{index}'].value
+        if words == None:
+            words = ""
         status = database[f'E{index}'].value
-        classes = database[f'F{index}'].value
+        classes = str(database[f'F{index}'].value)
+
+        #print([number, irNumber, saveLocation, words, status, classes, str(colourData)])
 
         dataEntryString = "~".join([number, irNumber, saveLocation, words, status, classes, str(colourData)])
-
         entries.append(DatabaseEntry(dataEntryString))
 
     outputString = ""
@@ -93,7 +98,6 @@ def indexDatabase():
     save_database(databaseToSaveLocation, preprocessedData)
 
 currentPath = str(pathlib.Path().resolve())
-databasePath = r'C:\Users\sammy.LAPTOP-RUR693FV\Desktop\Code\Database.xlsx'
+databasePath = currentPath + r'\Database.xlsx'
 databaseToSaveLocation = currentPath + r'\database.txt'
-
 

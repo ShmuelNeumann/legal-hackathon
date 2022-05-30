@@ -13,12 +13,12 @@ def compare_image_shape(database, filepath: str):
     model = mlFunctions.init_shape_image_compare()
 
     comparisonResults = {}
+    imageEmbedding = mlFunctions.encode_image_shape(model, filepath)
 
     for index in range(len(imageDatabase)):
         print(f'Comparing image {index+1} out of {len(imageDatabase)}')
 
         databaseImageEmbedding = mlFunctions.encode_image_shape(model, imageDatabase[index].imagePath)
-        imageEmbedding = mlFunctions.encode_image_shape(model, filepath)
 
 
         comparisonResults[imageDatabase[index].number] = float(mlFunctions.compare_embeddings(databaseImageEmbedding, imageEmbedding))
@@ -33,12 +33,12 @@ def compare_text(database, text: str):
     model = mlFunctions.init_text_encoding()
 
     comparisonResults = {}
+    imageEmbedding = mlFunctions.encode_text(model, text)
 
     for index in range(len(database)):
         print(f'Comparing text {index+1} out of {len(database)}')
 
         databaseImageEmbedding = mlFunctions.encode_text(model, database[index].words)
-        imageEmbedding = mlFunctions.encode_text(model, text)
 
 
         comparisonResults[database[index].number] = float(mlFunctions.compare_embeddings(databaseImageEmbedding, imageEmbedding))
@@ -55,12 +55,12 @@ def compare_image_text(database, text: str):
     model = mlFunctions.init_text_encoding()
 
     comparisonResults = {}
+    imageEmbedding = mlFunctions.encode_text(model, text)
 
     for index in range(len(imageDatabase)):
         print(f'Comparing image {index+1} out of {len(imageDatabase)}')
 
         databaseImageEmbedding = mlFunctions.encode_text(model, imageDatabase[index].words)
-        imageEmbedding = mlFunctions.encode_text(model, text)
 
 
         comparisonResults[imageDatabase[index].number] = float(mlFunctions.compare_embeddings(databaseImageEmbedding, imageEmbedding))
