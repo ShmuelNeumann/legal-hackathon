@@ -1,4 +1,4 @@
-
+import mlFunctions
 
 #### Functions
 
@@ -195,10 +195,6 @@ def main():
     guiData = gui.initialise_tkinter()
 
     comparisonDetails = gui.getInput(guiData) #WIP - This is the function to get [isImage, text, image path]
-
-    print("\n====\nInitialising ML functions\n====\n")
-    import mlFunctions
-
 
     # If the comparison is an image one, compare the images
     if comparisonDetails[0] == True:
