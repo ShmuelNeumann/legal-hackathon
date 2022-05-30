@@ -364,6 +364,9 @@ def show_results(dictionary,results):
     heading_results = tk.Label(results_frame, text="Top 3 most similar Images", font=('Helvatical bold', 16))
     heading_results.pack(side=tk.TOP, anchor="w")
 
+    results_str_label = tk.Label(results_frame, text=results, font=('Helvatical bold', 10))
+    results_str_label.pack(side=tk.TOP, anchor="w")
+
     results_frame.mainloop()
 
 
