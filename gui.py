@@ -296,13 +296,13 @@ def getInput(dictionary):
     form_data = dictionary.get('form_data')
     root_window = dictionary.get('root_window')
     if button != None:
-        if button.master == image_and_image_text_frame:
-            form_data.set_image_and_text_outputs(True,form_data.get_image_file_path(),form_data.get_image_text())
+        #if button.master == image_and_image_text_frame:
+        form_data.set_image_and_text_outputs(True,form_data.get_image_file_path(),form_data.get_image_text())
 
-            try:
-                stop_main_loop(root_window)
-            except tk._tkinter.TclError:
-                pass
+        try:
+            stop_main_loop(root_window)
+        except tk._tkinter.TclError:
+            pass
     else:
         button = dictionary.get('submit_just_text_btn')
         form_data.set_image_and_text_outputs(False, False, form_data.get_image_text())
