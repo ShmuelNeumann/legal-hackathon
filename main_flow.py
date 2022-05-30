@@ -156,7 +156,6 @@ if comparisonDetails[0] == True:
     textResults = compare_image_text(database, comparisonDetails[2])
     print(textResults)
 
-else:
-    text
+    
 
 

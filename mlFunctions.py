@@ -173,6 +173,8 @@ def get_colours(image, number_of_colours: int, show_chart: bool)->list:
     modified_image = cv2.resize(image, (600, 400), interpolation=cv2.INTER_AREA)
     modified_image = modified_image.reshape(modified_image.shape[0] * modified_image.shape[1], 3)
 
+    
+
     # Runt the K-means algorithm. labels holds the array (?) output
     clf = KMeans(n_clusters = number_of_colours, random_state=0)
     labels = clf.fit_predict(modified_image)
