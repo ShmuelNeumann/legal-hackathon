@@ -84,6 +84,7 @@ def initialise_tkinter():
     formData = Data()
     return_dictionary['form_data'] = formData
     scaled_image_size = []
+    return_dictionary['scaled_image_size'] = scaled_image_size
 
     root = tk.Tk()
     return_dictionary['root_window'] = root
@@ -100,10 +101,6 @@ def initialise_tkinter():
     return_dictionary['just_text_frame'] = just_text
 
     # set the initial frame of the application.
-    home_page.pack(side=tk.TOP, anchor="w")
-
-    # create the home_page of the application
-
     # HOME PAGE HEADING
     home_page_heading = tk.Label(home_page, text="Home Page of Trademark Application", font=('Helvatical bold', 16))
     home_page_heading.pack(side=tk.TOP, anchor="c", pady=(0, 5))
@@ -111,83 +108,98 @@ def initialise_tkinter():
 
     # BUTTON TO TRANSITION TO THE IMAGE AND TEXT PAGE
     transition_to_image_and_text = tk.Button(home_page, text="Compare Image")
-    transition_to_image_and_text.config(command=lambda:transition_between_frames(home_page,image_and_image_text))
+    transition_to_image_and_text.config(
+        command=lambda: transition_between_frames(return_dictionary, home_page, image_and_image_text))
     transition_to_image_and_text.pack(side=tk.TOP, anchor="c", pady=(0, 5), padx=5, fill="x")
     return_dictionary['transition_btn_home_to_image_and_text'] = transition_to_image_and_text
 
     # BUTTON TO TRANSITION TO THE TEXT ONLY PAGE
     transition_to_text = tk.Button(home_page, text="Compare Text")
-    transition_to_text.config(command=lambda:transition_between_frames(return_dictionary,home_page,just_text))
+    transition_to_text.config(command=lambda: transition_between_frames(return_dictionary, home_page, just_text))
     transition_to_text.pack(side=tk.TOP, anchor="c", pady=(0, 5), padx=5, fill="x")
     return_dictionary['transition_btn_home_to_text'] = transition_to_text
+
+    home_page.pack(side=tk.TOP, anchor="w")
+
+    # create the home_page of the application
+
+    root.mainloop()
+    return return_dictionary
+
+def initialise_image_and_text(dictionary):
+    image_and_image_text = dictionary.get('image_and_image_text_frame')
+    formData = dictionary.get('form_data')
+    home_page = dictionary.get('home_page_frame')
+    scaled_image_size = dictionary.get('scaled_image_size')
 
     # first part of the interface label for choose your image.
     open_image_text_label = tk.Label(image_and_image_text, text="Choose your image", font=('Helvatical bold', 16))
     open_image_text_label.pack(side=tk.TOP, anchor="w", pady=(0, 5))
-    return_dictionary['choose_image_text_label'] = open_image_text_label
+    dictionary['choose_image_text_label'] = open_image_text_label
 
     # second part of interface tell the user the file format.
 
-    imageText = tk.Label(image_and_image_text, text='Upload image with extension png or jpg',font=('Helvatical bold', 14))
+    imageText = tk.Label(image_and_image_text, text='Upload image with extension png or jpg',
+                         font=('Helvatical bold', 14))
     imageText.pack(side=tk.TOP, anchor="w", padx=10, pady=(0, 5))
-    return_dictionary['image_format_text_label'] = imageText
+    dictionary['image_format_text_label'] = imageText
 
     # third part is a button to upload the image file opens the file explorer.
 
-    uploadButton = tk.Button(image_and_image_text, text='Upload File', command=lambda:open_file(formData,canvas,scaled_image_size))
+    uploadButton = tk.Button(image_and_image_text, text='Upload File',
+                             command=lambda: open_file(formData, canvas, scaled_image_size))
     uploadButton.pack(side=tk.TOP, anchor="w", padx=10, pady=(0, 5))
-    return_dictionary['upload_image_btn'] = uploadButton
+    dictionary['upload_image_btn'] = uploadButton
 
     # create a label
     # first part of the interface label for choose your image.
     enter_image_text_label = tk.Label(image_and_image_text, text="Enter Image text", font=('Helvatical bold', 16))
     enter_image_text_label.pack(side=tk.TOP, anchor="w", pady=(0, 5))
-    return_dictionary['enter_image_text_label'] = enter_image_text_label
+    dictionary['enter_image_text_label'] = enter_image_text_label
 
     # create the text box for the user to enter the image text.
     text_box = tk.Text(image_and_image_text, height=1, width=40)
     text_box.pack(side=tk.TOP, anchor="w", padx=10, pady=(0, 5))
-    return_dictionary['enter_image_textbox'] = text_box
+    dictionary['enter_image_textbox'] = text_box
 
     # submit text button
-    get_text_button = tk.Button(image_and_image_text, text='Submit Image Text', command=lambda:get_textbox_text(text_box,formData,text_label))
+    get_text_button = tk.Button(image_and_image_text, text='Submit Image Text',
+                                command=lambda: get_textbox_text(text_box, formData, text_label))
     get_text_button.pack(side=tk.TOP, anchor="w", padx=10, pady=(0, 5))
-    return_dictionary['submit_text_btn'] = get_text_button
+    dictionary['submit_text_btn'] = get_text_button
 
     # submit both image and text for processing
-    send_image_and_text_for_processing_btn = tk.Button(image_and_image_text, text="Send Image and Text for Processing",command=lambda: getInput(return_dictionary))
+    send_image_and_text_for_processing_btn = tk.Button(image_and_image_text, text="Send Image and Text for Processing",
+                                                       command=lambda: getInput(dictionary))
     send_image_and_text_for_processing_btn.pack(side=tk.TOP, anchor="w", padx=5, pady=(0, 5))
-    return_dictionary['submit_text_and_image_btn'] = send_image_and_text_for_processing_btn
+    dictionary['submit_text_and_image_btn'] = send_image_and_text_for_processing_btn
 
     # heading for displaying the chosen image
     uploaded_image_label = tk.Label(image_and_image_text, text="Current Uploaded image", font=('Helvatical bold', 16))
     uploaded_image_label.pack(side=tk.TOP, anchor="w", pady=(0, 5))
-    return_dictionary['heading_display_chosen_image_label'] = uploaded_image_label
+    dictionary['heading_display_chosen_image_label'] = uploaded_image_label
 
     # create the canvas for our image that has been uploaded.
     canvas = tk.Canvas(image_and_image_text, width=100, height=100)
     canvas.pack(side=tk.TOP, anchor="w", padx=10, pady=(0, 5))
-    return_dictionary['preview_image_canvas'] = canvas
+    dictionary['preview_image_canvas'] = canvas
 
-    uploaded_image_text_label = tk.Label(image_and_image_text, text="Current uploaded image text",font=('Helvatical bold', 16))
+    uploaded_image_text_label = tk.Label(image_and_image_text, text="Current uploaded image text",
+                                         font=('Helvatical bold', 16))
     uploaded_image_text_label.pack(side=tk.TOP, anchor="w", pady=(0, 5))
-    return_dictionary['upload_image_text_label'] = uploaded_image_text_label
-
+    dictionary['upload_image_text_label'] = uploaded_image_text_label
 
     text_label = tk.Label(image_and_image_text, text="", font=('Helvatical bold', 14))
     text_label.pack(side=tk.TOP, anchor="w", padx=10, pady=(0, 5))
-    return_dictionary['preview_image_text_label'] = text_label
+    dictionary['preview_image_text_label'] = text_label
 
     btn_image_and_text_to_home = tk.Button(image_and_image_text, text="Back to home page")
-    btn_image_and_text_to_home.config(command=lambda:transition_between_frames(image_and_image_text,home_page))
+    btn_image_and_text_to_home.config(command=lambda: transition_between_frames(image_and_image_text, home_page))
     btn_image_and_text_to_home.pack(side=tk.TOP, anchor="w", padx=10, pady=(0, 5))
 
-    return_dictionary['transition_btn_text_to_home'] = btn_image_and_text_to_home
+    image_and_image_text.pack(side=tk.TOP, anchor="w")
+    dictionary['transition_btn_text_to_home'] = btn_image_and_text_to_home
     # JUST TEXT COMPARISON
-
-
-    root.mainloop()
-    return return_dictionary
 
 
 # FUNCTIONS TO CALL TO TRANSITION BETWEEN PAGES
@@ -201,6 +213,8 @@ def transition_between_frames(dictionary,current_frame, destination_frame):
     current_frame.pack_forget()
     if destination_frame == dictionary.get('just_text_frame'):
         initialise_just_text(dictionary)
+    if destination_frame == dictionary.get('image_and_image_text_frame'):
+        initialise_image_and_text(dictionary)
 
 # IMAGE AND IMAGE TEXT INTERFACE ITEMS AND FUNCTIONS
 def resize_image(path,sf,scaled_image_size):
