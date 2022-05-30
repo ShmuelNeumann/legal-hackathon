@@ -157,6 +157,7 @@ if comparisonDetails[0] == True:
     print(textResults)
 
 else:
-    text
+    pass
 
+gui.show_results()
 
