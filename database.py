@@ -93,7 +93,7 @@ def indexDatabase():
     save_database(databaseToSaveLocation, preprocessedData)
 
 currentPath = str(pathlib.Path().resolve())
-databasePath = r'C:\Users\sammy.LAPTOP-RUR693FV\Desktop\Code\Database.xlsx'
+databasePath = currentPath + r'\Database.xlsx'
 databaseToSaveLocation = currentPath + r'\database.txt'
 
 
