@@ -9,26 +9,67 @@ def compare_image_shape(database, filepath: str):
 
     imageDatabase = list(filter(lambda entry: entry.imagePath != 'None', database))
 
-    print("\n====\nInitialising Shape ML Algorithm\n====\n")
+    print("\n====\nInitialising Image Shape ML Algorithm\n====\n")
     model = mlFunctions.init_shape_image_compare()
 
     comparisonResults = {}
 
     for index in range(len(imageDatabase)):
-        print(f'Comparing image {index} out of {len(imageDatabase)}')
+        print(f'Comparing image {index+1} out of {len(imageDatabase)}')
 
         databaseImageEmbedding = mlFunctions.encode_image_shape(model, imageDatabase[index].imagePath)
         imageEmbedding = mlFunctions.encode_image_shape(model, filepath)
 
 
-        comparisonResults[int(imageDatabase[index].number)] = mlFunctions.compare_embeddings(databaseImageEmbedding, imageEmbedding)
+        comparisonResults[imageDatabase[index].number] = float(mlFunctions.compare_embeddings(databaseImageEmbedding, imageEmbedding))
 
     results = getHighestOfDict(comparisonResults, 3)
 
     return results
 
-def compare_image_colour(database, filepath: str, text: str):
-    pass
+def compare_image_text(database, text: str):
+
+    imageDatabase = list(filter(lambda entry: entry.imagePath != 'None', database))
+
+    print("\n====\nInitialising Image Text ML Algorithm\n====\n")
+    model = mlFunctions.init_text_encoding()
+
+    comparisonResults = {}
+
+    for index in range(len(imageDatabase)):
+        print(f'Comparing image {index+1} out of {len(imageDatabase)}')
+
+        databaseImageEmbedding = mlFunctions.encode_text(model, imageDatabase[index].words)
+        imageEmbedding = mlFunctions.encode_text(model, text)
+
+
+        comparisonResults[imageDatabase[index].number] = float(mlFunctions.compare_embeddings(databaseImageEmbedding, imageEmbedding))
+
+    results = getHighestOfDict(comparisonResults, 3)
+
+    return results
+
+def compare_image_colour(database, filepath: str):
+
+    imageDatabase = list(filter(lambda entry: entry.imagePath != 'None', database))
+
+    print("\n====\nInitialising Image Colour ML Algorithm\n====\n")
+    imageData = mlFunctions.preproccess_image_colours(filepath, 5)
+
+    comparisonResults = {}
+
+    for index in range(len(imageDatabase)):
+        print(f'Comparing image {index+1} out of {len(imageDatabase)}')
+
+        databaseImageColourData = string_to_lists(imageDatabase[index].colourData)
+        
+
+
+        comparisonResults[int(imageDatabase[index].number)] = mlFunctions.compare_colours(imageData, databaseImageColourData)
+
+    results = getHighestOfDict(comparisonResults, 3)
+
+    return results
 
 def getHighestOfDict(inputDict:dict, numberOfHighest):
     
@@ -38,15 +79,11 @@ def getHighestOfDict(inputDict:dict, numberOfHighest):
     
         highestKey = max(inputDict, key=inputDict.get)
         highestValue = inputDict[highestKey]
-        outputKeys.append([highestKey, highestValue])
+        outputKeys.append([int(highestKey), highestValue])
         inputDict.pop(highestKey)
 
     return outputKeys
     
-
-
-
-
 def string_to_lists(input_string: str) -> list:
     individual_lists = []
     output_list = []
@@ -113,8 +150,11 @@ if comparisonDetails[0] == True:
     shapeResults = compare_image_shape(database, comparisonDetails[1])
     print(shapeResults)
 
-    #print("\n====\nBeginning Image Colour Comparison\n====\n")
-    #compare_image_colour(database, comparisonDetails[2])
+    colourResults = compare_image_colour(database, comparisonDetails[1])
+    print(colourResults)
+
+    textResults = compare_image_text(database, comparisonDetails[2])
+    print(textResults)
 
 #print("\n====\nBeginning Text Comparison\n====\n")
 
