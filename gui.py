@@ -117,7 +117,7 @@ def initialise_tkinter():
 
     # BUTTON TO TRANSITION TO THE TEXT ONLY PAGE
     transition_to_text = tk.Button(home_page, text="Compare Text")
-    transition_to_text.config(command=lambda:transition_between_frames(home_page,just_text))
+    transition_to_text.config(command=lambda:transition_between_frames(return_dictionary,home_page,just_text))
     transition_to_text.pack(side=tk.TOP, anchor="c", pady=(0, 5), padx=5, fill="x")
     return_dictionary['transition_btn_home_to_text'] = transition_to_text
 
@@ -191,7 +191,7 @@ def initialise_tkinter():
 
 
 # FUNCTIONS TO CALL TO TRANSITION BETWEEN PAGES
-def transition_between_frames(current_frame, destination_frame):
+def transition_between_frames(dictionary,current_frame, destination_frame):
     """
     Desc:
         Function to transition the frame of the interface from the home frame, to the image_and_text frame
@@ -199,7 +199,8 @@ def transition_between_frames(current_frame, destination_frame):
     Returns: N/A
     """
     current_frame.pack_forget()
-    destination_frame.pack(side= tk.TOP, anchor="w")
+    if destination_frame == dictionary.get('just_text_frame'):
+        initialise_just_text(dictionary)
 
 # IMAGE AND IMAGE TEXT INTERFACE ITEMS AND FUNCTIONS
 def resize_image(path,sf,scaled_image_size):
@@ -284,12 +285,15 @@ def getInput(dictionary):
     image_and_image_text_frame = dictionary.get('image_and_image_text_frame')
     just_text_frame = dictionary.get('just_text_frame')
     form_data = dictionary.get('form_data')
+    root_window = dictionary.get('root_window')
     if button.master == image_and_image_text_frame:
         form_data.set_image_and_text_outputs(True,form_data.get_image_file_path(),form_data.get_image_text())
+        stop_main_loop(root_window)
     elif button.master == just_text_frame:
         form_data.set_image_and_text_outputs(False, False, form_data.get_image_text())
+        stop_main_loop(root_window)
 
-    transition_to_results(dictionary)
+
 
     return form_data.get_image_and_text_outputs()
 
@@ -325,22 +329,51 @@ def display_image_and_text(file_path, canvas, scaled_image_size):
     canvas.image = ph  # to prevent the image garbage collected.
     canvas.create_image((0, 0), image=ph, anchor='nw')
 
-def transition_to_results(dictionary):
-    submit_image_and_text_btn  = dictionary.get('submit_text_and_image_btn')
 
-    configure_results_window(dictionary)
 
-def configure_results_window(dictionary):
+
+
+def stop_main_loop(window):
+    window.destroy()
+
+def show_results(dictionary,results):
     # create new window
     results_window = tk.Tk()
     results_window.title("Results Window")
     results_window.geometry("500x500")
 
-    results_frame = tk.Frame(results_window, width=500, height=500,)
+    results_frame = tk.Frame(results_window, width=500, height=500, )
     results_frame.pack(side=tk.TOP, anchor="w")
 
     heading_results = tk.Label(results_frame, text="Top 3 most similar Images", font=('Helvatical bold', 16))
     heading_results.pack(side=tk.TOP, anchor="w")
-    #remove this comment.   <- wth?
+    # remove this comment.   <- wth?
 
-#initialise_tkinter()
+def initialise_just_text(dictionary):
+    just_text_frame = dictionary.get('just_text_frame')
+    form_data = dictionary.get('form_data')
+
+    heading_label  = tk.Label(just_text_frame, text="Input the trademark Text you wish to check", font=('Helvatical bold', 16))
+    heading_label.pack(side=tk.TOP, anchor="w")
+
+    just_text_box = tk.Text(just_text_frame, height=1, width=40)
+    just_text_box.pack(side=tk.TOP, anchor="w", padx=10, pady=(0, 5))
+
+    submit_just_text_btn = tk.Button(just_text_frame, text='Submit Image Text', command=lambda:get_textbox_text(just_text_box,form_data,display_current_text))
+    submit_just_text_btn.pack(side=tk.TOP, anchor="w", padx=10, pady=(0, 5))
+
+    current_text_label = tk.Label(just_text_frame, text="Current Text input", font=('Helvatical bold', 16))
+    current_text_label.pack(side=tk.TOP, anchor="w")
+
+    display_current_text = tk.Label(just_text_frame, text="", font=('Helvatical bold', 14))
+    display_current_text.pack(side=tk.TOP, anchor="w", padx=10, pady=(0, 5))
+
+    submit_just_text_for_processing = tk.Button(just_text_frame, text='Submit text for processing', command=lambda:getInput(dictionary))
+    submit_just_text_for_processing.pack(side=tk.TOP, anchor="w", padx=10, pady=(0, 5))
+
+
+
+    just_text_frame.pack(side=tk.TOP, anchor="w")
+
+
+initialise_tkinter()
