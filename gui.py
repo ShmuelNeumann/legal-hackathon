@@ -329,7 +329,6 @@ def transition_to_results(dictionary):
     submit_image_and_text_btn  = dictionary.get('submit_text_and_image_btn')
     root_window = dictionary.get('root_window')
     root_window.destroy()
-
     configure_results_window(dictionary)
 
 def configure_results_window(dictionary):
