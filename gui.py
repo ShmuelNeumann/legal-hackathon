@@ -342,5 +342,6 @@ def configure_results_window(dictionary):
 
     heading_results = tk.Label(results_frame, text="Top 3 most similar Images", font=('Helvatical bold', 16))
     heading_results.pack(side=tk.TOP, anchor="w")
+    #remove this comment.
 
 initialise_tkinter()
