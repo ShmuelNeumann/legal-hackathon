@@ -3,10 +3,40 @@ from tkinter.filedialog import askopenfile
 import cv2
 from PIL import ImageTk,Image
 
+
+class Data:
+
+    def __init__(self):
+        self.image_and_text_outputs = [None, None, None]
+        self.image_file_path = ""
+        self.image_text = ""
+
+    def get_image_and_text_outputs(self):
+        return self.image_and_text_outputs
+
+    def get_image_file_path(self):
+        return self.image_file_path
+
+    def get_image_text(self):
+        return self.image_text
+
+    def set_image_and_text_outputs(self,p1,p2,p3):
+        self.image_and_text_outputs[0] = p1
+        self.image_and_text_outputs[1] = p2
+        self.image_and_text_outputs[2] = p3
+
+    def set_image_file_path(self,file_path):
+        self.image_file_path = file_path
+
+    def set_image_text(self,image_text):
+        self.image_text = image_text
+
+
+
 # global variables.
-image_and_text_inputs = [None,None]
-image_file_path = ""
-image_text = ""
+formData = Data()
+
+
 scaled_image_size = []
 
 
@@ -92,14 +122,15 @@ def resize_image(path,sf):
 def open_file():
     file_path = askopenfile(mode='r', filetypes=[('Image Files', 'jpg'),('Image Files', 'png')])
     if file_path is not None:
-        image_file_path = file_path.name
-        # add the file path to the output list.
-        image_and_text_inputs.append(file_path.name)
+        formData.set_image_file_path(file_path.name)
         # resize the image to 10% of its original size
         resize_image(file_path.name,10)
         # display the resized image as the uploaded image.
-        display_image_image_and_text(file_path.name)
+        display_image_and_text(file_path.name)
 
+
+def updateFilepath(file_path):
+    image_file_path = file_path
 
 
 
@@ -136,17 +167,22 @@ get_text_button = tk.Button(image_and_image_text,text='Submit Image Text',comman
 get_text_button.pack(side= tk.TOP, anchor="w",padx=10,pady=(0,5))
 
 
-def send_page_info():
-    image_and_text_inputs[0] = image_file_path
-    image_and_text_inputs[1] = image_text
-    # remove the image from the canvas
-    canvas.delete("all")
-    # delete the string in the image text
-    text_label.config(text="")
+
+def getInput(button:tk.Button):
+    if button.master == image_and_image_text:
+        formData.set_image_and_text_outputs(True,formData.get_image_file_path(),formData.get_image_text())
+    elif button.master == just_text:
+        formData.set_image_and_text_outputs(False, False, formData.get_image_text())
+
+    print(formData.get_image_and_text_outputs())
+    return formData.get_image_and_text_outputs()
+
+
 
 
 # submit both image and text for processing
-send_image_and_text_for_processing_btn = tk.Button(image_and_image_text,text="Send Image and Text for Processing", command=send_page_info)
+send_image_and_text_for_processing_btn = tk.Button(image_and_image_text,text="Send Image and Text for Processing")
+send_image_and_text_for_processing_btn.config(command=lambda: getInput(send_image_and_text_for_processing_btn))
 send_image_and_text_for_processing_btn.pack(side=tk.TOP, anchor="w",padx=5,pady=(0,5))
 
 # heading for displaying the chosen image
@@ -167,12 +203,12 @@ text_label.pack(side=tk.TOP, anchor="w", padx=10,pady=(0,5))
 
 
 def display_text(image_text):
-    image_and_text_inputs.append(image_text)
     # current uploaded image text
     text_label.config(text=image_text)
+    formData.set_image_text(image_text.strip("\n"))
 
 
-def display_image_image_and_text(file_path):
+def display_image_and_text(file_path):
     # create the image size dynamically based on what the image scaling resizes the image to
     canvas.config(width=scaled_image_size[0],height=scaled_image_size[1])
     # get the numpy array of the resized image
@@ -182,6 +218,7 @@ def display_image_image_and_text(file_path):
 
     canvas.image = ph  # to prevent the image garbage collected.
     canvas.create_image((0, 0), image=ph, anchor='nw')
+
 
 
 btn_image_and_text_to_home = tk.Button(image_and_image_text,text="Back to home page",command=image_and_text_to_home)
