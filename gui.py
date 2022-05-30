@@ -363,7 +363,9 @@ def show_results(dictionary,results):
 
     heading_results = tk.Label(results_frame, text="Top 3 most similar Images", font=('Helvatical bold', 16))
     heading_results.pack(side=tk.TOP, anchor="w")
-    # remove this comment.   <- wth?
+
+    results_frame.mainloop()
+
 
 def initialise_just_text(dictionary):
     just_text_frame = dictionary.get('just_text_frame')
