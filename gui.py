@@ -120,6 +120,7 @@ def initialise_tkinter():
     return_dictionary['transition_btn_home_to_text'] = transition_to_text
 
     home_page.pack(side=tk.TOP, anchor="w")
+    return_dictionary['active_frame'] = home_page
 
     # create the home_page of the application
 
@@ -128,6 +129,7 @@ def initialise_tkinter():
 
 def initialise_image_and_text(dictionary):
     image_and_image_text = dictionary.get('image_and_image_text_frame')
+    dictionary['active_frame'] = image_and_image_text
     formData = dictionary.get('form_data')
     home_page = dictionary.get('home_page_frame')
     scaled_image_size = dictionary.get('scaled_image_size')
@@ -290,29 +292,26 @@ def getInput(dictionary):
         the list in the form of [True, file_path, image_text] if its coming from the image_and_image_text frame or
         the list in the form of [False, False, text] if its coming from the just_text screen.
     """
-    button = dictionary.get('submit_text_and_image_btn')
-    image_and_image_text_frame = dictionary.get('image_and_image_text_frame')
-    just_text_frame = dictionary.get('just_text_frame')
+
+    current_frame = dictionary.get('active_frame')
     form_data = dictionary.get('form_data')
     root_window = dictionary.get('root_window')
-    if button != None:
-        #if button.master == image_and_image_text_frame:
-        form_data.set_image_and_text_outputs(True,form_data.get_image_file_path(),form_data.get_image_text())
 
+    if current_frame == dictionary.get('image_and_image_text_frame'):
+        form_data.set_image_and_text_outputs(True, form_data.get_image_file_path(), form_data.get_image_text())
         try:
             stop_main_loop(root_window)
         except tk._tkinter.TclError:
             pass
-    else:
-        button = dictionary.get('submit_just_text_btn')
+    elif current_frame == dictionary.get('just_text_frame'):
         form_data.set_image_and_text_outputs(False, False, form_data.get_image_text())
         try:
             stop_main_loop(root_window)
         except tk._tkinter.TclError:
             pass
 
-
     return form_data.get_image_and_text_outputs()
+
 
 
 def display_text(formData,image_text,text_label):
@@ -368,6 +367,7 @@ def show_results(dictionary,results):
 
 def initialise_just_text(dictionary):
     just_text_frame = dictionary.get('just_text_frame')
+    dictionary['active_frame'] = just_text_frame
     form_data = dictionary.get('form_data')
 
     heading_label  = tk.Label(just_text_frame, text="Input the trademark Text you wish to check", font=('Helvatical bold', 16))
