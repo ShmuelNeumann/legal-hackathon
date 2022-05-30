@@ -98,9 +98,9 @@ database = database.read_database(database.databaseToSaveLocation)
 print("\n====\nWaiting for User Input\n====\n")
 
 # Have the user input the image/text
-#comparisonDetails = gui.getInput() #WIP - This is the function to get [isImage, text, image path]
-comparisonDetails = [True, 'hello my name is bob', r'C:\Users\sammy.LAPTOP-RUR693FV\Pictures\Picture2.jpg']
+guiData = gui.initialise_tkinter()
 
+comparisonDetails = gui.getInput(guiData) #WIP - This is the function to get [isImage, text, image path]
 
 print("\n====\nInitialising ML functions\n====\n")
 import mlFunctions
@@ -110,7 +110,7 @@ import mlFunctions
 if comparisonDetails[0] == True:
 
     
-    shapeResults = compare_image_shape(database, comparisonDetails[2])
+    shapeResults = compare_image_shape(database, comparisonDetails[1])
     print(shapeResults)
 
     #print("\n====\nBeginning Image Colour Comparison\n====\n")

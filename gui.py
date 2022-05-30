@@ -313,6 +313,3 @@ def display_image_and_text(file_path, canvas, scaled_image_size):
 
     canvas.image = ph  # to prevent the image garbage collected.
     canvas.create_image((0, 0), image=ph, anchor='nw')
-
-
-initialise_tkinter()
