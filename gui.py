@@ -169,10 +169,9 @@ def initialise_image_and_text(dictionary):
     dictionary['submit_text_btn'] = get_text_button
 
     # submit both image and text for processing
-    send_image_and_text_for_processing_btn = tk.Button(image_and_image_text, text="Send Image and Text for Processing",
-                                                       command=lambda: getInput(dictionary))
+    send_image_and_text_for_processing_btn = tk.Button(image_and_image_text, text="Send Image and Text for Processing",command=lambda: getInput(dictionary))
     send_image_and_text_for_processing_btn.pack(side=tk.TOP, anchor="w", padx=5, pady=(0, 5))
-    dictionary['submit_text_and_image_btn'] = send_image_and_text_for_processing_btn
+    dictionary['btn_submit_text_and_image'] = send_image_and_text_for_processing_btn
 
     # heading for displaying the chosen image
     uploaded_image_label = tk.Label(image_and_image_text, text="Current Uploaded image", font=('Helvatical bold', 16))
@@ -296,25 +295,25 @@ def getInput(dictionary):
         the list in the form of [False, False, text] if its coming from the just_text screen.
     """
     button = dictionary.get('submit_text_and_image_btn')
-    submit_just_text_btn = dictionary.get('submit_just_text_btn')
     image_and_image_text_frame = dictionary.get('image_and_image_text_frame')
     just_text_frame = dictionary.get('just_text_frame')
     form_data = dictionary.get('form_data')
     root_window = dictionary.get('root_window')
-    if button.master == image_and_image_text_frame:
-        form_data.set_image_and_text_outputs(True,form_data.get_image_file_path(),form_data.get_image_text())
-        
-        try:
+    if button != None:
+        if button.master == image_and_image_text_frame:
+            form_data.set_image_and_text_outputs(True,form_data.get_image_file_path(),form_data.get_image_text())
 
+            try:
+                stop_main_loop(root_window)
+            except tk._tkinter.TclError:
+                pass
+    else:
+        button = dictionary.get('submit_just_text_btn')
+        form_data.set_image_and_text_outputs(False, False, form_data.get_image_text())
+        try:
             stop_main_loop(root_window)
         except tk._tkinter.TclError:
             pass
-
-
-    elif submit_just_text_btn.master == just_text_frame:
-        form_data.set_image_and_text_outputs(False, False, form_data.get_image_text())
-        stop_main_loop(root_window)
-
 
 
     return form_data.get_image_and_text_outputs()
@@ -400,4 +399,4 @@ def initialise_just_text(dictionary):
     just_text_frame.pack(side=tk.TOP, anchor="w")
 
 
-#initialise_tkinter()
+initialise_tkinter()
