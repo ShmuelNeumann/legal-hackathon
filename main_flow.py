@@ -138,7 +138,7 @@ print("\n====\nWaiting for User Input\n====\n")
 guiData = gui.initialise_tkinter()
 
 comparisonDetails = gui.getInput(guiData) #WIP - This is the function to get [isImage, text, image path]
-
+print("hello")
 print("\n====\nInitialising ML functions\n====\n")
 import mlFunctions
 
@@ -156,8 +156,7 @@ if comparisonDetails[0] == True:
     textResults = compare_image_text(database, comparisonDetails[2])
     print(textResults)
 
-#print("\n====\nBeginning Text Comparison\n====\n")
-
-
+else:
+    text
 
 
