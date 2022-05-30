@@ -403,7 +403,5 @@ def run_image_colour_compare():
 
 if __name__ == '__main__':
 
-    #Samples
-    print(run_image_colour_compare())
-    print(run_image_shape_compare())
+
     print(run_text_compare())

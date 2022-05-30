@@ -1,5 +1,4 @@
 import openpyxl
-import time
 from openpyxl_image_loader import SheetImageLoader
 import os
 import pathlib
@@ -36,7 +35,7 @@ def preprocess_database(databasePath, currentPath):
     entries = []
 
     for index in range(5, database.max_row+1):
-        print(f'Indexing Entry {index+1} out of {database.max_row+1}')
+        print(f'Preprocessing Entry {index-4} out of {database.max_row-4}')
         number = database[f'A{index}'].value
         irNumber = database[f'B{index}'].value
         
@@ -61,7 +60,7 @@ def preprocess_database(databasePath, currentPath):
         status = database[f'E{index}'].value
         classes = database[f'F{index}'].value
 
-        dataEntryString = "~".join([number, irNumber, words, saveLocation, status, classes, str(colourData)])
+        dataEntryString = "~".join([number, irNumber, saveLocation, words, status, classes, str(colourData)])
 
         entries.append(DatabaseEntry(dataEntryString))
 

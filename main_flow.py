@@ -1,32 +1,51 @@
 
 
-
-
-#Function Imports
-import database
-import gui
-
 #### Functions
 
 # function for processing the 3 main pieces that make up an image, colour, shape, and text.
-def compare_image(filepath: str, text: str,  database):
+
+
+def compare_image_shape(database, filepath: str):
+
+    imageDatabase = list(filter(lambda entry: entry.imagePath != 'None', database))
+
+    print("\n====\nInitialising Shape ML Algorithm\n====\n")
+    model = mlFunctions.init_shape_image_compare()
+
+    comparisonResults = {}
+
+    for index in range(len(imageDatabase)):
+        print(f'Comparing image {index} out of {len(imageDatabase)}')
+
+        databaseImageEmbedding = mlFunctions.encode_image_shape(model, imageDatabase[index].imagePath)
+        imageEmbedding = mlFunctions.encode_image_shape(model, filepath)
+
+
+        comparisonResults[int(imageDatabase[index].number)] = mlFunctions.compare_embeddings(databaseImageEmbedding, imageEmbedding)
+
+    results = getHighestOfDict(comparisonResults, 3)
+
+    return results
+
+def compare_image_colour(database, filepath: str, text: str):
     pass
 
-# function for processing the input text.
-def compare_text(text: str):
-    pass
+def getHighestOfDict(inputDict:dict, numberOfHighest):
+    
+    outputKeys = []
 
-# button to show the results in a report format after image/text has been processed.
-def display_results():
-    pass
+    for _ in range(numberOfHighest):
+    
+        highestKey = max(inputDict, key=inputDict.get)
+        highestValue = inputDict[highestKey]
+        outputKeys.append([highestKey, highestValue])
+        inputDict.pop(highestKey)
 
-# run the backbone code here for keeping the interface on and root for all decisions made on interface
-def main_flow():
-    pass
+    return outputKeys
+    
 
-# not sure if needed but exit the interface done by closing window.
-def exit():
-    pass
+
+
 
 def string_to_lists(input_string: str) -> list:
     individual_lists = []
@@ -58,24 +77,47 @@ def string_to_lists(input_string: str) -> list:
 
 #### Main Program ####
 
+
+print("\n====\nSearching for Preprocessed Database\n====\n")
+
+import database
+
 #Check if the database needs to be indexed
 if database.checkDatabaseIndexing() == False:
     #Index the database
-    print("\n====\nNo indexed Database found\nPreprocessing Database\n====\n")
+    print("\n====\nNo Preprocessed Database found\nPreprocessing Database\n====\n")
     database.indexDatabase()
-    print("\n====\nIndexing Complete\n====\n")
+    print("\n====\nPreprocessing Complete\n====\n")
 
+import gui
+
+print("\n====\nAccessing Database\n====\n")
+
+database = database.read_database(database.databaseToSaveLocation)
+
+print("\n====\nWaiting for User Input\n====\n")
 
 # Have the user input the image/text
-comparisonDetails = gui.getInput() #WIP - This is the function to get [isImage, text, image path]
+#comparisonDetails = gui.getInput() #WIP - This is the function to get [isImage, text, image path]
+comparisonDetails = [True, 'hello my name is bob', r'C:\Users\sammy.LAPTOP-RUR693FV\Pictures\Picture2.jpg']
 
-# Get the database
-database = database.read_database(database.databaseToSaveLocation)
+
+print("\n====\nInitialising ML functions\n====\n")
+import mlFunctions
+
 
 # If the comparison is an image one, compare the images
 if comparisonDetails[0] == True:
-    compare_image()
+
     
+    shapeResults = compare_image_shape(database, comparisonDetails[2])
+    print(shapeResults)
+
+    #print("\n====\nBeginning Image Colour Comparison\n====\n")
+    #compare_image_colour(database, comparisonDetails[2])
+
+#print("\n====\nBeginning Text Comparison\n====\n")
+
 
 
 
