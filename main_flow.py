@@ -157,7 +157,9 @@ if comparisonDetails[0] == True:
     print(textResults)
   
 else:
-    pass
+    textResults = compare_image_text(database, comparisonDetails[2])
+    print(textResults)
+    
 
 gui.show_results()
 

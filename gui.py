@@ -302,7 +302,14 @@ def getInput(dictionary):
     root_window = dictionary.get('root_window')
     if button.master == image_and_image_text_frame:
         form_data.set_image_and_text_outputs(True,form_data.get_image_file_path(),form_data.get_image_text())
-        stop_main_loop(root_window)
+        
+        try:
+
+            stop_main_loop(root_window)
+        except tk._tkinter.TclError:
+            pass
+
+
     elif button.master == just_text_frame:
         form_data.set_image_and_text_outputs(False, False, form_data.get_image_text())
         stop_main_loop(root_window)
@@ -390,4 +397,4 @@ def initialise_just_text(dictionary):
     just_text_frame.pack(side=tk.TOP, anchor="w")
 
 
-initialise_tkinter()
+#initialise_tkinter()
