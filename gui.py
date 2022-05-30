@@ -2,6 +2,9 @@ import tkinter as tk
 from tkinter.filedialog import askopenfile
 import cv2
 from PIL import ImageTk,Image
+import matplotlib.pyplot as plt
+from pandas import DataFrame
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 
 class Data:
@@ -152,8 +155,7 @@ def initialise_tkinter():
     return_dictionary['submit_text_btn'] = get_text_button
 
     # submit both image and text for processing
-    send_image_and_text_for_processing_btn = tk.Button(image_and_image_text, text="Send Image and Text for Processing")
-    send_image_and_text_for_processing_btn.config(command=lambda: getInput(return_dictionary))
+    send_image_and_text_for_processing_btn = tk.Button(image_and_image_text, text="Send Image and Text for Processing",command=lambda: getInput(return_dictionary))
     send_image_and_text_for_processing_btn.pack(side=tk.TOP, anchor="w", padx=5, pady=(0, 5))
     return_dictionary['submit_text_and_image_btn'] = send_image_and_text_for_processing_btn
 
@@ -217,8 +219,16 @@ def resize_image(path,sf,scaled_image_size):
     scale_percent = sf
 
     # calculate the scaled percent percent of original dimensions
-    width = int(src.shape[1] * scale_percent / 100)
-    height = int(src.shape[0] * scale_percent / 100)
+
+    current_width = src.shape[1]
+    current_height = src.shape[0]
+
+    scaling_fac_width = current_width/100
+    scaling_fac_height = scaling_fac_width
+
+
+    width = int(current_width/scaling_fac_width)
+    height = int(current_height/scaling_fac_height)
 
     # dsize
     dsize = (width, height)
@@ -279,7 +289,8 @@ def getInput(dictionary):
     elif button.master == just_text_frame:
         form_data.set_image_and_text_outputs(False, False, form_data.get_image_text())
 
-    print(form_data.get_image_and_text_outputs())
+    transition_to_results(dictionary)
+
     return form_data.get_image_and_text_outputs()
 
 
@@ -313,3 +324,24 @@ def display_image_and_text(file_path, canvas, scaled_image_size):
 
     canvas.image = ph  # to prevent the image garbage collected.
     canvas.create_image((0, 0), image=ph, anchor='nw')
+
+def transition_to_results(dictionary):
+    submit_image_and_text_btn  = dictionary.get('submit_text_and_image_btn')
+    root_window = dictionary.get('root_window')
+    root_window.destroy()
+
+    configure_results_window(dictionary)
+
+def configure_results_window(dictionary):
+    # create new window
+    results_window = tk.Tk()
+    results_window.title("Results Window")
+    results_window.geometry("500x500")
+
+    results_frame = tk.Frame(results_window, width=500, height=500,)
+    results_frame.pack(side=tk.TOP, anchor="w")
+
+    heading_results = tk.Label(results_frame, text="Top 3 most similar Images", font=('Helvatical bold', 16))
+    heading_results.pack(side=tk.TOP, anchor="w")
+
+initialise_tkinter()
