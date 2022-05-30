@@ -192,12 +192,8 @@ def initialise_image_and_text(dictionary):
     text_label.pack(side=tk.TOP, anchor="w", padx=10, pady=(0, 5))
     dictionary['preview_image_text_label'] = text_label
 
-    btn_image_and_text_to_home = tk.Button(image_and_image_text, text="Back to home page")
-    btn_image_and_text_to_home.config(command=lambda: transition_between_frames(image_and_image_text, home_page))
-    btn_image_and_text_to_home.pack(side=tk.TOP, anchor="w", padx=10, pady=(0, 5))
 
     image_and_image_text.pack(side=tk.TOP, anchor="w")
-    dictionary['transition_btn_text_to_home'] = btn_image_and_text_to_home
     # JUST TEXT COMPARISON
 
 

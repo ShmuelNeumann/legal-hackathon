@@ -137,24 +137,24 @@ def get_results_string(isImage, results, database):
 
         outputString += "\nSimilarities To Other Layouts\n"
         for index in range(3):
-            outputString += f'{index+1}. Trademark No {results[0][index][0]} has a similarity of {results[0][index][1]} out of 1\n\tMore details can be found at: https://search.ipaustralia.gov.au/trademarks/search/view/{results[0][index][0]}/details\n'
+            outputString += f'{index+1}. Trademark No {results[0][index][0]} has a similarity of {results[0][index][1]} out of 1\n\tMore details can be found at: https://search.ipaustralia.gov.au/trademarks/search/view/{results[0][index][0]}/details' + '\n'
         
         outputString += "\nSimilarities To Other Colours\n"
         for index in range(3):
-            outputString += f'{index+1}. Trademark No {results[1][index][0]} has a similarity of {results[1][index][1]} out of 1\n\tMore details can be found at: https://search.ipaustralia.gov.au/trademarks/search/view/{results[1][index][0]}/details\n'
+            outputString += f'{index+1}. Trademark No {results[1][index][0]} has a similarity of {results[1][index][1]} out of 1\n\tMore details can be found at: https://search.ipaustralia.gov.au/trademarks/search/view/{results[1][index][0]}/details' + '\n'
         
         outputString += "\nSimilarities To Other Texts\n"
         for index in range(3):
-            outputString += f'{index+1}. Trademark No {results[2][index][0]} has a similarity of {results[2][index][1]} out of 1\n\tMore details can be found at: https://search.ipaustralia.gov.au/trademarks/search/view/{results[2][index][0]}/details\n'
+            outputString += f'{index+1}. Trademark No {results[2][index][0]} has a similarity of {results[2][index][1]} out of 1\n\tMore details can be found at: https://search.ipaustralia.gov.au/trademarks/search/view/{results[2][index][0]}/details' + '\n'
         return outputString
     
     elif not isImage:
-        outputString = "====\nRESULTS\n====\n"
+        outputString = "\n====\nRESULTS\n====\n"
 
 
-        outputString += "\nSimilarities To Other Texts"
+        outputString += "\nSimilarities To Other Texts\n"
         for index in range(3):
-            outputString += f'{index}. Trademark No {results[0][index][0]} has a similarity of {results[0][index][1]} out of 1\n\tMore details can be found at: https://search.ipaustralia.gov.au/trademarks/search/view/{results[0][index][0]}/details'
+            outputString += f'{index+1}. Trademark No {results[0][index][0]} has a similarity of {results[0][index][1]} out of 1\n\tMore details can be found at: https://search.ipaustralia.gov.au/trademarks/search/view/{results[0][index][0]}/details' + '\n'
         return outputString
 
 
@@ -201,7 +201,7 @@ if comparisonDetails[0] == True:
 
     textResults = compare_image_text(database, comparisonDetails[2])
 
-    results_string = get_results_string(False, [shapeResults, colourResults, textResults], database)
+    results_string = get_results_string(True, [shapeResults, colourResults, textResults], database)
 
   
 else:
@@ -212,5 +212,5 @@ else:
 print(results_string)
     
 
-gui.show_results(tkinter)
+gui.show_results(tkinter, results_string)
 

@@ -360,7 +360,7 @@ def compare_colours(data1:list, data2:list) -> float:
 
     diff = distance_between_points(centerOfData1, centerOfData2)
 
-    return (normal_dist(diff, 0,15)/47.12388980384689)
+    return round((normal_dist(diff, 0,15)/47.12388980384689),4)
 
 def normal_dist(x , mean , sd):
     prob_density = (np.pi*sd) * np.exp(-0.5*((x-mean)/sd)**2)
