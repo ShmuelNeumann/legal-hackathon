@@ -27,6 +27,26 @@ def compare_image_shape(database, filepath: str):
 
     return results
 
+def compare_text(database, text: str):
+
+    print("\n====\nInitialising Text ML Algorithm\n====\n")
+    model = mlFunctions.init_text_encoding()
+
+    comparisonResults = {}
+
+    for index in range(len(database)):
+        print(f'Comparing text {index+1} out of {len(database)}')
+
+        databaseImageEmbedding = mlFunctions.encode_text(model, database[index].words)
+        imageEmbedding = mlFunctions.encode_text(model, text)
+
+
+        comparisonResults[database[index].number] = float(mlFunctions.compare_embeddings(databaseImageEmbedding, imageEmbedding))
+
+    results = getHighestOfDict(comparisonResults, 3)
+
+    return results
+
 def compare_image_text(database, text: str):
 
     imageDatabase = list(filter(lambda entry: entry.imagePath != 'None', database))
@@ -111,12 +131,40 @@ def string_to_lists(input_string: str) -> list:
 
     return output_list
 
+def get_results_string(isImage, results, database):
+    if isImage:
+        outputString = "\n====\nRESULTS\n====\n"
+
+        outputString += "\nSimilarities To Other Layouts\n"
+        for index in range(3):
+            outputString += f'{index+1}. Trademark No {results[0][index][0]} has a similarity of {results[0][index][1]} out of 1\n\tMore details can be found at: https://search.ipaustralia.gov.au/trademarks/search/view/{results[0][index][0]}/details\n'
+        
+        outputString += "\nSimilarities To Other Colours\n"
+        for index in range(3):
+            outputString += f'{index+1}. Trademark No {results[1][index][0]} has a similarity of {results[1][index][1]} out of 1\n\tMore details can be found at: https://search.ipaustralia.gov.au/trademarks/search/view/{results[1][index][0]}/details\n'
+        
+        outputString += "\nSimilarities To Other Texts\n"
+        for index in range(3):
+            outputString += f'{index+1}. Trademark No {results[2][index][0]} has a similarity of {results[2][index][1]} out of 1\n\tMore details can be found at: https://search.ipaustralia.gov.au/trademarks/search/view/{results[2][index][0]}/details\n'
+        return outputString
+    
+    elif not isImage:
+        outputString = "====\nRESULTS\n====\n"
+
+
+        outputString += "\nSimilarities To Other Texts"
+        for index in range(3):
+            outputString += f'{index}. Trademark No {results[0][index][0]} has a similarity of {results[0][index][1]} out of 1\n\tMore details can be found at: https://search.ipaustralia.gov.au/trademarks/search/view/{results[0][index][0]}/details'
+        return outputString
+
+
 
 #### Main Program ####
 
 
 print("\n====\nSearching for Preprocessed Database\n====\n")
 
+import tkinter
 import database
 
 #Check if the database needs to be indexed
@@ -138,7 +186,7 @@ print("\n====\nWaiting for User Input\n====\n")
 guiData = gui.initialise_tkinter()
 
 comparisonDetails = gui.getInput(guiData) #WIP - This is the function to get [isImage, text, image path]
-print("hello")
+
 print("\n====\nInitialising ML functions\n====\n")
 import mlFunctions
 
@@ -148,18 +196,21 @@ if comparisonDetails[0] == True:
 
     
     shapeResults = compare_image_shape(database, comparisonDetails[1])
-    print(shapeResults)
 
     colourResults = compare_image_colour(database, comparisonDetails[1])
-    print(colourResults)
 
     textResults = compare_image_text(database, comparisonDetails[2])
-    print(textResults)
+
+    results_string = get_results_string(False, [shapeResults, colourResults, textResults], database)
+
   
 else:
-    textResults = compare_image_text(database, comparisonDetails[2])
-    print(textResults)
+    textResults = compare_text(database, comparisonDetails[2])
+
+    results_string = get_results_string(False, [textResults], database)
+
+print(results_string)
     
 
-gui.show_results()
+gui.show_results(tkinter)
 

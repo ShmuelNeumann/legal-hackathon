@@ -399,4 +399,4 @@ def initialise_just_text(dictionary):
     just_text_frame.pack(side=tk.TOP, anchor="w")
 
 
-initialise_tkinter()
+#initialise_tkinter()
