@@ -296,6 +296,7 @@ def getInput(dictionary):
         the list in the form of [False, False, text] if its coming from the just_text screen.
     """
     button = dictionary.get('submit_text_and_image_btn')
+    submit_just_text_btn = dictionary.get('submit_just_text_btn')
     image_and_image_text_frame = dictionary.get('image_and_image_text_frame')
     just_text_frame = dictionary.get('just_text_frame')
     form_data = dictionary.get('form_data')
@@ -310,7 +311,7 @@ def getInput(dictionary):
             pass
 
 
-    elif button.master == just_text_frame:
+    elif submit_just_text_btn.master == just_text_frame:
         form_data.set_image_and_text_outputs(False, False, form_data.get_image_text())
         stop_main_loop(root_window)
 
@@ -391,6 +392,8 @@ def initialise_just_text(dictionary):
 
     submit_just_text_for_processing = tk.Button(just_text_frame, text='Submit text for processing', command=lambda:getInput(dictionary))
     submit_just_text_for_processing.pack(side=tk.TOP, anchor="w", padx=10, pady=(0, 5))
+
+    dictionary['submit_just_text_btn'] = submit_just_text_for_processing
 
 
 
