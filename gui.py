@@ -358,9 +358,9 @@ def show_results(dictionary,isImage,values,database):
     results_window_dict = {}
     results_window = tk.Tk()
     results_window.title("Results Window")
-    results_window.geometry("700x950")
+    results_window.geometry("700x700")
 
-    results_frame = tk.Frame(results_window, width=700, height=800)
+    results_frame = tk.Frame(results_window, width=700, height=700)
     results_frame.pack(side=tk.TOP, anchor="w")
 
     # CREATE THE CANVASES FOR THE IMAGES
@@ -500,6 +500,7 @@ def show_results(dictionary,isImage,values,database):
         use_text_list.append(pair[0])
         # SCORE
         use_text_list.append(pair[1])
+
     for index in range(0, len(use_color_list), 2):
         set_score_and_image(use_color_list[index], use_color_list[index + 1], index, color, database,results_window_dict)
     for index in range(0, len(use_shape_list), 2):
@@ -567,7 +568,7 @@ def set_score_and_image(id,score,index,classification,database,interface_items):
             canvas.create_image((0, 0), image=ph, anchor='nw')
 
             text_label = interface_items.get('shape_similarity_1')
-            text_label.config(text=f"Shape similarity: {round(score*100,2)}")
+            text_label.config(text=f"Shape similarity: {round(score*100,2)}%")
 
         elif index == 2:
             path = get_image(str(id), database)
@@ -578,10 +579,8 @@ def set_score_and_image(id,score,index,classification,database,interface_items):
             canvas.create_image((0, 0), image=ph, anchor='nw')
 
             text_label = interface_items.get('shape_similarity_2')
-            text_label.config(text=f"Shape similarity: {round(score * 100, 2)}")
+            text_label.config(text=f"Shape similarity: {round(score * 100, 2)}%")
 
-
-            pass
         elif index == 4:
             path = get_image(str(id), database)
             resized_image = Image.fromarray(resize_image(path, 10, []))
@@ -591,7 +590,7 @@ def set_score_and_image(id,score,index,classification,database,interface_items):
             canvas.create_image((0, 0), image=ph, anchor='nw')
 
             text_label = interface_items.get('shape_similarity_3')
-            text_label.config(text=f"Shape similarity: {round(score * 100, 2)}")
+            text_label.config(text=f"Shape similarity: {round(score * 100, 2)}%")
 
     elif classification == 'text':
         if index == 0:
@@ -603,7 +602,7 @@ def set_score_and_image(id,score,index,classification,database,interface_items):
             canvas.create_image((0, 0), image=ph, anchor='nw')
 
             text_label = interface_items.get('text_similarity_1')
-            text_label.config(text=f"Text similarity: {round(score * 100, 2)}")
+            text_label.config(text=f"Text similarity: {round(score * 100, 2)}%")
 
         elif index == 2:
             path = get_image(str(id), database)
@@ -614,7 +613,7 @@ def set_score_and_image(id,score,index,classification,database,interface_items):
             canvas.create_image((0, 0), image=ph, anchor='nw')
 
             text_label = interface_items.get('text_similarity_2')
-            text_label.config(text=f"Text similarity: {round(score * 100, 2)}")
+            text_label.config(text=f"Text similarity: {round(score * 100, 2)}%")
 
         elif index == 4:
             path = get_image(str(id), database)
@@ -625,7 +624,7 @@ def set_score_and_image(id,score,index,classification,database,interface_items):
             canvas.create_image((0, 0), image=ph, anchor='nw')
 
             text_label = interface_items.get('text_similarity_3')
-            text_label.config(text=f"Text similarity: {round(score * 100, 2)}")
+            text_label.config(text=f"Text similarity: {round(score * 100, 2)}%")
     elif classification == 'color':
         if index == 0:
             path = get_image(str(id), database)
@@ -636,7 +635,7 @@ def set_score_and_image(id,score,index,classification,database,interface_items):
             canvas.create_image((0, 0), image=ph, anchor='nw')
 
             text_label = interface_items.get('colour_similarity_1')
-            text_label.config(text=f"Text similarity: {round(score * 100, 2)}")
+            text_label.config(text=f"Colour similarity: {round(score * 100, 2)}%")
 
         elif index == 2:
             path = get_image(str(id), database)
@@ -647,7 +646,7 @@ def set_score_and_image(id,score,index,classification,database,interface_items):
             canvas.create_image((0, 0), image=ph, anchor='nw')
 
             text_label = interface_items.get('colour_similarity_2')
-            text_label.config(text=f"Text similarity: {round(score * 100, 2)}")
+            text_label.config(text=f"Colour similarity: {round(score * 100, 2)}%")
 
         elif index == 4:
             path = get_image(str(id), database)
@@ -658,7 +657,7 @@ def set_score_and_image(id,score,index,classification,database,interface_items):
             canvas.create_image((0, 0), image=ph, anchor='nw')
 
             text_label = interface_items.get('colour_similarity_3')
-            text_label.config(text=f"Text similarity: {round(score * 100, 2)}")
+            text_label.config(text=f"Colour similarity: {round(score * 100, 2)}%")
 
 
 #initialise_tkinter()
