@@ -35,7 +35,7 @@ def preprocess_database(databasePath, currentPath):
     entries = []    
 
     for index in range(5,  23):
-        print(f'Preprocessing Entry {index-4} out of {22}')
+        print(f'Preprocessing Entry {index-4} out of {18}')
         number = database[f'A{index}'].value
         irNumber = database[f'B{index}'].value
         if irNumber == None:
