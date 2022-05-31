@@ -507,7 +507,7 @@ def show_results(dictionary,isImage,values,database):
         set_score_and_image(use_shape_list[index], use_shape_list[index + 1], index, shape, database,results_window_dict)
     for index in range(0, len(use_text_list), 2):
         if index != 6:
-            set_score_and_image(use_shape_list[index], use_shape_list[index + 1], index, text, database,results_window_dict)
+            set_score_and_image(use_text_list[index], use_text_list[index + 1], index, text, database,results_window_dict)
 
 
     results_frame.mainloop()
