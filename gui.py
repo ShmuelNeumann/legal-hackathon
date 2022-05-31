@@ -372,13 +372,13 @@ def show_results(dictionary,isImage,values,database):
     shape_sim_space = tk.Label(results_frame, text="", font=('Helvatical bold', 12))
     shape_sim_space.grid(row=2,column=1)
 
-    highest_shape_sim_canvas = tk.Canvas(results_frame, width=200, height=200,bg='green')
+    highest_shape_sim_canvas = tk.Canvas(results_frame, width=100, height=100,bg='green')
     highest_shape_sim_canvas.grid(row=3,column=0)
 
-    second_highest_shape_sim_canvas = tk.Canvas(results_frame, width=200, height=200,bg='blue')
+    second_highest_shape_sim_canvas = tk.Canvas(results_frame, width=100, height=100,bg='blue')
     second_highest_shape_sim_canvas.grid(row=3,column=1)
 
-    third_highest_shape_sim_canvas = tk.Canvas(results_frame, width=200, height=200,bg='white')
+    third_highest_shape_sim_canvas = tk.Canvas(results_frame, width=100, height=100,bg='white')
     third_highest_shape_sim_canvas.grid(row=3,column=2)
 
     shape_similarity_1 = tk.Label(results_frame, text="Shape similarity: 74.67%", font=('Helvatical bold', 10))
@@ -400,13 +400,13 @@ def show_results(dictionary,isImage,values,database):
     colour_sim_space = tk.Label(results_frame, text="", font=('Helvatical bold', 12))
     colour_sim_space.grid(row=7, column=1)
 
-    highest_colour_sim_canvas = tk.Canvas(results_frame, width=200, height=200, bg='green')
+    highest_colour_sim_canvas = tk.Canvas(results_frame, width=100, height=100, bg='green')
     highest_colour_sim_canvas.grid(row=8, column=0)
 
-    second_highest_colour_sim_canvas = tk.Canvas(results_frame, width=200, height=200, bg='blue')
+    second_highest_colour_sim_canvas = tk.Canvas(results_frame, width=100, height=100, bg='blue')
     second_highest_colour_sim_canvas.grid(row=8, column=1)
 
-    third_highest_colour_sim_canvas = tk.Canvas(results_frame, width=200, height=200, bg='white')
+    third_highest_colour_sim_canvas = tk.Canvas(results_frame, width=100, height=100, bg='white')
     third_highest_colour_sim_canvas.grid(row=8, column=2)
 
 
@@ -431,13 +431,13 @@ def show_results(dictionary,isImage,values,database):
     text_sim_space = tk.Label(results_frame, text="", font=('Helvatical bold', 12))
     text_sim_space.grid(row=12, column=1)
 
-    highest_text_sim_canvas = tk.Canvas(results_frame, width=200, height=200, bg='green')
+    highest_text_sim_canvas = tk.Canvas(results_frame, width=100, height=100, bg='green')
     highest_text_sim_canvas.grid(row=13, column=0)
 
-    second_highest_text_sim_canvas = tk.Canvas(results_frame, width=200, height=200, bg='blue')
+    second_highest_text_sim_canvas = tk.Canvas(results_frame, width=100, height=100, bg='blue')
     second_highest_text_sim_canvas.grid(row=13, column=1)
 
-    third_highest_text_sim_canvas = tk.Canvas(results_frame, width=200, height=200, bg='white')
+    third_highest_text_sim_canvas = tk.Canvas(results_frame, width=100, height=100, bg='white')
     third_highest_text_sim_canvas.grid(row=13, column=2)
 
     text_similarity_1 = tk.Label(results_frame, text="Text similarity: 74.67%", font=('Helvatical bold', 10),
