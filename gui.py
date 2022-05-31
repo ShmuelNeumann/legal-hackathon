@@ -354,163 +354,177 @@ def stop_main_loop(window):
     window.destroy()
 
 def show_results(dictionary,isImage,values,database):
-    # create new window
-    results_window_dict = {}
-    results_window = tk.Tk()
-    results_window.title("Results Window")
-    results_window.geometry("700x700")
+    if isImage:
+        # create new window
+        results_window_dict = {}
+        results_window = tk.Tk()
+        results_window.title("Results Window")
+        results_window.geometry("700x700")
 
-    results_frame = tk.Frame(results_window, width=700, height=700)
-    results_frame.pack(side=tk.TOP, anchor="w")
+        results_frame = tk.Frame(results_window, width=700, height=700)
+        results_frame.pack(side=tk.TOP, anchor="w")
 
-    # CREATE THE CANVASES FOR THE IMAGES
-    # FIRST IMAGE HERE
-    first_space = tk.Label(results_frame, text="", font=('Helvatical bold', 12))
-    first_space.grid(row=0, column=1)
+        # CREATE THE CANVASES FOR THE IMAGES
+        # FIRST IMAGE HERE
+        first_space = tk.Label(results_frame, text="", font=('Helvatical bold', 12))
+        first_space.grid(row=0, column=1)
 
-    heading_shape_sim = tk.Label(results_frame, text="Shape Comparison Results", font=('Helvatical bold', 16))
-    heading_shape_sim.grid(row=1,column=1)
+        heading_shape_sim = tk.Label(results_frame, text="Shape Comparison Results", font=('Helvatical bold', 16))
+        heading_shape_sim.grid(row=1,column=1)
 
-    shape_sim_space = tk.Label(results_frame, text="", font=('Helvatical bold', 12))
-    shape_sim_space.grid(row=2,column=1)
+        shape_sim_space = tk.Label(results_frame, text="", font=('Helvatical bold', 12))
+        shape_sim_space.grid(row=2,column=1)
 
-    highest_shape_sim_canvas = tk.Canvas(results_frame, width=100, height=100)
-    highest_shape_sim_canvas.grid(row=3,column=0)
-    results_window_dict['highest_shape_sim_canvas'] = highest_shape_sim_canvas
+        highest_shape_sim_canvas = tk.Canvas(results_frame, width=100, height=100)
+        highest_shape_sim_canvas.grid(row=3,column=0)
+        results_window_dict['highest_shape_sim_canvas'] = highest_shape_sim_canvas
 
-    second_highest_shape_sim_canvas = tk.Canvas(results_frame, width=100, height=100)
-    second_highest_shape_sim_canvas.grid(row=3,column=1)
-    results_window_dict['second_highest_shape_sim_canvas'] = second_highest_shape_sim_canvas
+        second_highest_shape_sim_canvas = tk.Canvas(results_frame, width=100, height=100)
+        second_highest_shape_sim_canvas.grid(row=3,column=1)
+        results_window_dict['second_highest_shape_sim_canvas'] = second_highest_shape_sim_canvas
 
-    third_highest_shape_sim_canvas = tk.Canvas(results_frame, width=100, height=100)
-    third_highest_shape_sim_canvas.grid(row=3,column=2)
-    results_window_dict['third_highest_shape_sim_canvas'] = third_highest_shape_sim_canvas
+        third_highest_shape_sim_canvas = tk.Canvas(results_frame, width=100, height=100)
+        third_highest_shape_sim_canvas.grid(row=3,column=2)
+        results_window_dict['third_highest_shape_sim_canvas'] = third_highest_shape_sim_canvas
 
-    shape_similarity_1 = tk.Label(results_frame, text="Shape similarity: 74.67%", font=('Helvatical bold', 10))
-    shape_similarity_1.grid(row=4,column=0)
-    results_window_dict['shape_similarity_1'] = shape_similarity_1
+        shape_similarity_1 = tk.Label(results_frame, text="Shape similarity: 74.67%", font=('Helvatical bold', 10))
+        shape_similarity_1.grid(row=4,column=0)
+        results_window_dict['shape_similarity_1'] = shape_similarity_1
 
-    shape_similarity_2 = tk.Label(results_frame, text="Shape similarity: 53.57%", font=('Helvatical bold', 10))
-    shape_similarity_2.grid(row=4,column=1)
-    results_window_dict['shape_similarity_2'] = shape_similarity_2
+        shape_similarity_2 = tk.Label(results_frame, text="Shape similarity: 53.57%", font=('Helvatical bold', 10))
+        shape_similarity_2.grid(row=4,column=1)
+        results_window_dict['shape_similarity_2'] = shape_similarity_2
 
-    shape_similarity_3 = tk.Label(results_frame, text="Shape similarity: 34.29%", font=('Helvatical bold', 10))
-    shape_similarity_3.grid(row=4,column=2)
-    results_window_dict['shape_similarity_3'] = shape_similarity_3
+        shape_similarity_3 = tk.Label(results_frame, text="Shape similarity: 34.29%", font=('Helvatical bold', 10))
+        shape_similarity_3.grid(row=4,column=2)
+        results_window_dict['shape_similarity_3'] = shape_similarity_3
 
-    # COLOUR SIMILARITY
-    second_space = tk.Label(results_frame, text="", font=('Helvatical bold', 12))
-    second_space.grid(row=5, column=1)
+        # COLOUR SIMILARITY
+        second_space = tk.Label(results_frame, text="", font=('Helvatical bold', 12))
+        second_space.grid(row=5, column=1)
 
-    heading_colour_sim = tk.Label(results_frame, text="Colour Comparison Results", font=('Helvatical bold', 16))
-    heading_colour_sim.grid(row=6,column=1)
+        heading_colour_sim = tk.Label(results_frame, text="Colour Comparison Results", font=('Helvatical bold', 16))
+        heading_colour_sim.grid(row=6,column=1)
 
-    colour_sim_space = tk.Label(results_frame, text="", font=('Helvatical bold', 12))
-    colour_sim_space.grid(row=7, column=1)
+        colour_sim_space = tk.Label(results_frame, text="", font=('Helvatical bold', 12))
+        colour_sim_space.grid(row=7, column=1)
 
-    highest_colour_sim_canvas = tk.Canvas(results_frame, width=100, height=100)
-    highest_colour_sim_canvas.grid(row=8, column=0)
-    results_window_dict['highest_colour_sim_canvas'] = highest_colour_sim_canvas
+        highest_colour_sim_canvas = tk.Canvas(results_frame, width=100, height=100)
+        highest_colour_sim_canvas.grid(row=8, column=0)
+        results_window_dict['highest_colour_sim_canvas'] = highest_colour_sim_canvas
 
-    second_highest_colour_sim_canvas = tk.Canvas(results_frame, width=100, height=100)
-    second_highest_colour_sim_canvas.grid(row=8, column=1)
-    results_window_dict['second_highest_colour_sim_canvas'] = second_highest_colour_sim_canvas
+        second_highest_colour_sim_canvas = tk.Canvas(results_frame, width=100, height=100)
+        second_highest_colour_sim_canvas.grid(row=8, column=1)
+        results_window_dict['second_highest_colour_sim_canvas'] = second_highest_colour_sim_canvas
 
-    third_highest_colour_sim_canvas = tk.Canvas(results_frame, width=100, height=100)
-    third_highest_colour_sim_canvas.grid(row=8, column=2)
-    results_window_dict['third_highest_colour_sim_canvas'] = third_highest_colour_sim_canvas
-
-
-    colour_similarity_1 = tk.Label(results_frame, text="Colour similarity: 74.67%", font=('Helvatical bold', 10),anchor='w')
-    colour_similarity_1.grid(row=9,column=0)
-    results_window_dict['colour_similarity_1'] = colour_similarity_1
-
-    colour_similarity_2 = tk.Label(results_frame, text="Colour similarity: 53.57%", font=('Helvatical bold', 10),anchor='w')
-    colour_similarity_2.grid(row=9,column=1)
-    results_window_dict['colour_similarity_2'] = colour_similarity_2
-
-    colour_similarity_3 = tk.Label(results_frame, text="Colour similarity: 34.29%", font=('Helvatical bold', 10),anchor='w')
-    colour_similarity_3.grid(row=9,column=2)
-    results_window_dict['colour_similarity_3'] = colour_similarity_3
+        third_highest_colour_sim_canvas = tk.Canvas(results_frame, width=100, height=100)
+        third_highest_colour_sim_canvas.grid(row=8, column=2)
+        results_window_dict['third_highest_colour_sim_canvas'] = third_highest_colour_sim_canvas
 
 
-    # TEXT SIMILARITY
+        colour_similarity_1 = tk.Label(results_frame, text="Colour similarity: 74.67%", font=('Helvatical bold', 10),anchor='w')
+        colour_similarity_1.grid(row=9,column=0)
+        results_window_dict['colour_similarity_1'] = colour_similarity_1
 
-    third_space = tk.Label(results_frame, text="", font=('Helvatical bold', 12))
-    third_space.grid(row=10, column=1)
+        colour_similarity_2 = tk.Label(results_frame, text="Colour similarity: 53.57%", font=('Helvatical bold', 10),anchor='w')
+        colour_similarity_2.grid(row=9,column=1)
+        results_window_dict['colour_similarity_2'] = colour_similarity_2
+
+        colour_similarity_3 = tk.Label(results_frame, text="Colour similarity: 34.29%", font=('Helvatical bold', 10),anchor='w')
+        colour_similarity_3.grid(row=9,column=2)
+        results_window_dict['colour_similarity_3'] = colour_similarity_3
 
 
-    heading_text_sim = tk.Label(results_frame, text="Text Comparison Results", font=('Helvatical bold', 16))
-    heading_text_sim.grid(row=11, column=1)
+        # TEXT SIMILARITY
 
-    text_sim_space = tk.Label(results_frame, text="", font=('Helvatical bold', 12))
-    text_sim_space.grid(row=12, column=1)
+        third_space = tk.Label(results_frame, text="", font=('Helvatical bold', 12))
+        third_space.grid(row=10, column=1)
 
-    highest_text_sim_canvas = tk.Canvas(results_frame, width=100, height=100)
-    highest_text_sim_canvas.grid(row=13, column=0)
-    results_window_dict['highest_text_sim_canvas'] = highest_text_sim_canvas
 
-    second_highest_text_sim_canvas = tk.Canvas(results_frame, width=100, height=100)
-    second_highest_text_sim_canvas.grid(row=13, column=1)
-    results_window_dict['second_highest_text_sim_canvas'] = second_highest_text_sim_canvas
+        heading_text_sim = tk.Label(results_frame, text="Text Comparison Results", font=('Helvatical bold', 16))
+        heading_text_sim.grid(row=11, column=1)
 
-    third_highest_text_sim_canvas = tk.Canvas(results_frame, width=100, height=100)
-    third_highest_text_sim_canvas.grid(row=13, column=2)
-    results_window_dict['third_highest_text_sim_canvas'] = third_highest_text_sim_canvas
+        text_sim_space = tk.Label(results_frame, text="", font=('Helvatical bold', 12))
+        text_sim_space.grid(row=12, column=1)
 
-    text_similarity_1 = tk.Label(results_frame, text="Text similarity: 74.67%", font=('Helvatical bold', 10),
-                                   anchor='w')
-    text_similarity_1.grid(row=14, column=0)
-    results_window_dict['text_similarity_1'] = text_similarity_1
+        highest_text_sim_canvas = tk.Canvas(results_frame, width=100, height=100)
+        highest_text_sim_canvas.grid(row=13, column=0)
+        results_window_dict['highest_text_sim_canvas'] = highest_text_sim_canvas
 
-    text_similarity_2 = tk.Label(results_frame, text="Text similarity: 53.57%", font=('Helvatical bold', 10),
-                                   anchor='w')
-    text_similarity_2.grid(row=14, column=1)
-    results_window_dict['text_similarity_2'] = text_similarity_2
+        second_highest_text_sim_canvas = tk.Canvas(results_frame, width=100, height=100)
+        second_highest_text_sim_canvas.grid(row=13, column=1)
+        results_window_dict['second_highest_text_sim_canvas'] = second_highest_text_sim_canvas
 
-    text_similarity_3 = tk.Label(results_frame, text="Text similarity: 34.29%", font=('Helvatical bold', 10),
-                                   anchor='w')
-    text_similarity_3.grid(row=14, column=2)
-    results_window_dict['text_similarity_3'] = text_similarity_3
+        third_highest_text_sim_canvas = tk.Canvas(results_frame, width=100, height=100)
+        third_highest_text_sim_canvas.grid(row=13, column=2)
+        results_window_dict['third_highest_text_sim_canvas'] = third_highest_text_sim_canvas
 
-    color_list = get_colour_results(values)
-    use_color_list = []
-    color = 'color'
-    shape_list = get_shape_results(values)
-    use_shape_list = []
-    shape = 'shape'
-    text_list = get_text_results(values)
-    use_text_list = []
-    text = 'text'
+        text_similarity_1 = tk.Label(results_frame, text="Text similarity: 74.67%", font=('Helvatical bold', 10),
+                                       anchor='w')
+        text_similarity_1.grid(row=14, column=0)
+        results_window_dict['text_similarity_1'] = text_similarity_1
 
-    for pair in color_list:
-        # ID
-        use_color_list.append(pair[0])
-        # SCORE
-        use_color_list.append(pair[1])
+        text_similarity_2 = tk.Label(results_frame, text="Text similarity: 53.57%", font=('Helvatical bold', 10),
+                                       anchor='w')
+        text_similarity_2.grid(row=14, column=1)
+        results_window_dict['text_similarity_2'] = text_similarity_2
 
-    for pair in shape_list:
-        # ID
-        use_shape_list.append(pair[0])
-        # SCORE
-        use_shape_list.append(pair[1])
+        text_similarity_3 = tk.Label(results_frame, text="Text similarity: 34.29%", font=('Helvatical bold', 10),
+                                       anchor='w')
+        text_similarity_3.grid(row=14, column=2)
+        results_window_dict['text_similarity_3'] = text_similarity_3
 
-    for pair in text_list:
-        # ID
-        use_text_list.append(pair[0])
-        # SCORE
-        use_text_list.append(pair[1])
+        color_list = get_colour_results(values)
+        use_color_list = []
+        color = 'color'
+        shape_list = get_shape_results(values)
+        use_shape_list = []
+        shape = 'shape'
+        text_list = get_text_results(values)
+        use_text_list = []
+        text = 'text'
 
-    for index in range(0, len(use_color_list), 2):
-        set_score_and_image(use_color_list[index], use_color_list[index + 1], index, color, database,results_window_dict)
-    for index in range(0, len(use_shape_list), 2):
-        set_score_and_image(use_shape_list[index], use_shape_list[index + 1], index, shape, database,results_window_dict)
-    for index in range(0, len(use_text_list), 2):
-        if index != 6:
+        for pair in color_list:
+            # ID
+            use_color_list.append(pair[0])
+            # SCORE
+            use_color_list.append(pair[1])
+
+        for pair in shape_list:
+            # ID
+            use_shape_list.append(pair[0])
+            # SCORE
+            use_shape_list.append(pair[1])
+
+        for pair in text_list:
+            # ID
+            use_text_list.append(pair[0])
+            # SCORE
+            use_text_list.append(pair[1])
+
+        for index in range(0, len(use_color_list), 2):
+            set_score_and_image(use_color_list[index], use_color_list[index + 1], index, color, database,
+                                results_window_dict)
+        for index in range(0, len(use_shape_list), 2):
+            set_score_and_image(use_shape_list[index], use_shape_list[index + 1], index, shape, database,
+                                results_window_dict)
+        for index in range(0, len(use_text_list), 2):
+            set_score_and_image(use_text_list[index], use_text_list[index + 1], index, text, database,
+                                results_window_dict)
+
+
+
+        for index in range(0, len(use_color_list), 2):
+            set_score_and_image(use_color_list[index], use_color_list[index + 1], index, color, database,results_window_dict)
+        for index in range(0, len(use_shape_list), 2):
+            set_score_and_image(use_shape_list[index], use_shape_list[index + 1], index, shape, database,results_window_dict)
+        for index in range(0, len(use_text_list), 2):
             set_score_and_image(use_text_list[index], use_text_list[index + 1], index, text, database,results_window_dict)
 
 
-    results_frame.mainloop()
+        results_frame.mainloop()
+    else:
+        pass
 
 
 def initialise_just_text(dictionary):
@@ -545,16 +559,12 @@ def initialise_just_text(dictionary):
     just_text_frame.pack(side=tk.TOP, anchor="w")
 
 def get_colour_results(values):
-    #[[[],[],[]],[[],[],[]],[[],[],[]]]
-    # [[],[],[]]
     return values[1]
 
 def get_shape_results(values):
-    #[[[],[],[]],[[],[],[]],[[],[],[]]]
     return values[0]
 
 def get_text_results(values):
-    #[[[],[],[]],[[],[],[]],[[],[],[]]]
     return values[2]
 
 def set_score_and_image(id,score,index,classification,database,interface_items):
