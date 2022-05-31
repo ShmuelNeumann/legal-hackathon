@@ -219,9 +219,9 @@ def main():
 
         print(results_string)
 
-        colourThreshold = 0.9
-        layoutThreshold = 0.7
-        textThreshold = 0.6
+        colourThreshold = 0.99
+        layoutThreshold = 0.6
+        textThreshold = 0.2
         neg = False
         
         if colourResults[0][1] > colourThreshold or shapeResults[0][1] > layoutThreshold or textResults[0][1] > textThreshold:
@@ -254,7 +254,7 @@ def main():
         results_string = get_results_string(False, [textResults], database)
         print(results_string)
 
-        textThreshold = 0.4
+        textThreshold = 0.2
 
         if textResults[0][1] > textThreshold:
             print(f'\n\n====\nRecommendation\n====\n\nThis Trademark Image will most likely not be filed, fot the following reasons:\n\n')
