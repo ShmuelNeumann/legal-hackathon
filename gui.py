@@ -374,15 +374,15 @@ def show_results(dictionary,isImage,values,database):
     shape_sim_space = tk.Label(results_frame, text="", font=('Helvatical bold', 12))
     shape_sim_space.grid(row=2,column=1)
 
-    highest_shape_sim_canvas = tk.Canvas(results_frame, width=100, height=100,bg='green')
+    highest_shape_sim_canvas = tk.Canvas(results_frame, width=100, height=100)
     highest_shape_sim_canvas.grid(row=3,column=0)
     results_window_dict['highest_shape_sim_canvas'] = highest_shape_sim_canvas
 
-    second_highest_shape_sim_canvas = tk.Canvas(results_frame, width=100, height=100,bg='blue')
+    second_highest_shape_sim_canvas = tk.Canvas(results_frame, width=100, height=100)
     second_highest_shape_sim_canvas.grid(row=3,column=1)
     results_window_dict['second_highest_shape_sim_canvas'] = second_highest_shape_sim_canvas
 
-    third_highest_shape_sim_canvas = tk.Canvas(results_frame, width=100, height=100,bg='white')
+    third_highest_shape_sim_canvas = tk.Canvas(results_frame, width=100, height=100)
     third_highest_shape_sim_canvas.grid(row=3,column=2)
     results_window_dict['third_highest_shape_sim_canvas'] = third_highest_shape_sim_canvas
 
@@ -408,17 +408,17 @@ def show_results(dictionary,isImage,values,database):
     colour_sim_space = tk.Label(results_frame, text="", font=('Helvatical bold', 12))
     colour_sim_space.grid(row=7, column=1)
 
-    highest_colour_sim_canvas = tk.Canvas(results_frame, width=100, height=100, bg='green')
+    highest_colour_sim_canvas = tk.Canvas(results_frame, width=100, height=100)
     highest_colour_sim_canvas.grid(row=8, column=0)
-    results_window_dict['highest_color_sim_canvas'] = highest_colour_sim_canvas
+    results_window_dict['highest_colour_sim_canvas'] = highest_colour_sim_canvas
 
-    second_highest_colour_sim_canvas = tk.Canvas(results_frame, width=100, height=100, bg='blue')
+    second_highest_colour_sim_canvas = tk.Canvas(results_frame, width=100, height=100)
     second_highest_colour_sim_canvas.grid(row=8, column=1)
-    results_window_dict['second_highest_color_sim_canvas'] = second_highest_colour_sim_canvas
+    results_window_dict['second_highest_colour_sim_canvas'] = second_highest_colour_sim_canvas
 
-    third_highest_colour_sim_canvas = tk.Canvas(results_frame, width=100, height=100, bg='white')
+    third_highest_colour_sim_canvas = tk.Canvas(results_frame, width=100, height=100)
     third_highest_colour_sim_canvas.grid(row=8, column=2)
-    results_window_dict['third_highest_color_sim_canvas'] = third_highest_colour_sim_canvas
+    results_window_dict['third_highest_colour_sim_canvas'] = third_highest_colour_sim_canvas
 
 
     colour_similarity_1 = tk.Label(results_frame, text="Colour similarity: 74.67%", font=('Helvatical bold', 10),anchor='w')
@@ -446,15 +446,15 @@ def show_results(dictionary,isImage,values,database):
     text_sim_space = tk.Label(results_frame, text="", font=('Helvatical bold', 12))
     text_sim_space.grid(row=12, column=1)
 
-    highest_text_sim_canvas = tk.Canvas(results_frame, width=100, height=100, bg='green')
+    highest_text_sim_canvas = tk.Canvas(results_frame, width=100, height=100)
     highest_text_sim_canvas.grid(row=13, column=0)
     results_window_dict['highest_text_sim_canvas'] = highest_text_sim_canvas
 
-    second_highest_text_sim_canvas = tk.Canvas(results_frame, width=100, height=100, bg='blue')
+    second_highest_text_sim_canvas = tk.Canvas(results_frame, width=100, height=100)
     second_highest_text_sim_canvas.grid(row=13, column=1)
     results_window_dict['second_highest_text_sim_canvas'] = second_highest_text_sim_canvas
 
-    third_highest_text_sim_canvas = tk.Canvas(results_frame, width=100, height=100, bg='white')
+    third_highest_text_sim_canvas = tk.Canvas(results_frame, width=100, height=100)
     third_highest_text_sim_canvas.grid(row=13, column=2)
     results_window_dict['third_highest_text_sim_canvas'] = third_highest_text_sim_canvas
 
@@ -500,14 +500,11 @@ def show_results(dictionary,isImage,values,database):
         use_text_list.append(pair[0])
         # SCORE
         use_text_list.append(pair[1])
-    print(len(use_color_list))
-    for index in range(0, len(use_color_list)-2, 2):
+    for index in range(0, len(use_color_list), 2):
         set_score_and_image(use_color_list[index], use_color_list[index + 1], index, color, database,results_window_dict)
-    print(len(use_shape_list))
-    for index in range(0, len(use_shape_list)-2, 2):
+    for index in range(0, len(use_shape_list), 2):
         set_score_and_image(use_shape_list[index], use_shape_list[index + 1], index, shape, database,results_window_dict)
-    print(len(use_text_list))
-    for index in range(0, len(use_text_list)-2, 2):
+    for index in range(0, len(use_text_list), 2):
         if index != 6:
             set_score_and_image(use_shape_list[index], use_shape_list[index + 1], index, text, database,results_window_dict)
 
@@ -569,6 +566,9 @@ def set_score_and_image(id,score,index,classification,database,interface_items):
             canvas.image = ph  # to prevent the image garbage collected.
             canvas.create_image((0, 0), image=ph, anchor='nw')
 
+            text_label = interface_items.get('shape_similarity_1')
+            text_label.config(text=f"Shape similarity: {round(score*100,2)}")
+
         elif index == 2:
             path = get_image(str(id), database)
             resized_image = Image.fromarray(resize_image(path, 10, []))
@@ -576,6 +576,9 @@ def set_score_and_image(id,score,index,classification,database,interface_items):
             canvas = interface_items.get('second_highest_shape_sim_canvas')
             canvas.image = ph  # to prevent the image garbage collected.
             canvas.create_image((0, 0), image=ph, anchor='nw')
+
+            text_label = interface_items.get('shape_similarity_2')
+            text_label.config(text=f"Shape similarity: {round(score * 100, 2)}")
 
 
             pass
@@ -587,6 +590,9 @@ def set_score_and_image(id,score,index,classification,database,interface_items):
             canvas.image = ph  # to prevent the image garbage collected.
             canvas.create_image((0, 0), image=ph, anchor='nw')
 
+            text_label = interface_items.get('shape_similarity_3')
+            text_label.config(text=f"Shape similarity: {round(score * 100, 2)}")
+
     elif classification == 'text':
         if index == 0:
             path = get_image(str(id), database)
@@ -596,6 +602,9 @@ def set_score_and_image(id,score,index,classification,database,interface_items):
             canvas.image = ph  # to prevent the image garbage collected.
             canvas.create_image((0, 0), image=ph, anchor='nw')
 
+            text_label = interface_items.get('text_similarity_1')
+            text_label.config(text=f"Text similarity: {round(score * 100, 2)}")
+
         elif index == 2:
             path = get_image(str(id), database)
             resized_image = Image.fromarray(resize_image(path, 10, []))
@@ -604,6 +613,9 @@ def set_score_and_image(id,score,index,classification,database,interface_items):
             canvas.image = ph  # to prevent the image garbage collected.
             canvas.create_image((0, 0), image=ph, anchor='nw')
 
+            text_label = interface_items.get('text_similarity_2')
+            text_label.config(text=f"Text similarity: {round(score * 100, 2)}")
+
         elif index == 4:
             path = get_image(str(id), database)
             resized_image = Image.fromarray(resize_image(path, 10, []))
@@ -611,30 +623,42 @@ def set_score_and_image(id,score,index,classification,database,interface_items):
             canvas = interface_items.get('third_highest_text_sim_canvas')
             canvas.image = ph  # to prevent the image garbage collected.
             canvas.create_image((0, 0), image=ph, anchor='nw')
+
+            text_label = interface_items.get('text_similarity_3')
+            text_label.config(text=f"Text similarity: {round(score * 100, 2)}")
     elif classification == 'color':
         if index == 0:
             path = get_image(str(id), database)
             resized_image = Image.fromarray(resize_image(path, 10, []))
             ph = ImageTk.PhotoImage(resized_image)
-            canvas = interface_items.get('highest_color_sim_canvas')
+            canvas = interface_items.get('highest_colour_sim_canvas')
             canvas.image = ph  # to prevent the image garbage collected.
             canvas.create_image((0, 0), image=ph, anchor='nw')
+
+            text_label = interface_items.get('colour_similarity_1')
+            text_label.config(text=f"Text similarity: {round(score * 100, 2)}")
 
         elif index == 2:
             path = get_image(str(id), database)
             resized_image = Image.fromarray(resize_image(path, 10, []))
             ph = ImageTk.PhotoImage(resized_image)
-            canvas = interface_items.get('second_highest_color_sim_canvas')
+            canvas = interface_items.get('second_highest_colour_sim_canvas')
             canvas.image = ph  # to prevent the image garbage collected.
             canvas.create_image((0, 0), image=ph, anchor='nw')
+
+            text_label = interface_items.get('colour_similarity_2')
+            text_label.config(text=f"Text similarity: {round(score * 100, 2)}")
 
         elif index == 4:
             path = get_image(str(id), database)
             resized_image = Image.fromarray(resize_image(path, 10, []))
             ph = ImageTk.PhotoImage(resized_image)
-            canvas = interface_items.get('second_highest_color_sim_canvas')
+            canvas = interface_items.get('third_highest_colour_sim_canvas')
             canvas.image = ph  # to prevent the image garbage collected.
             canvas.create_image((0, 0), image=ph, anchor='nw')
+
+            text_label = interface_items.get('colour_similarity_3')
+            text_label.config(text=f"Text similarity: {round(score * 100, 2)}")
 
 
 #initialise_tkinter()
