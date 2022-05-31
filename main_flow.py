@@ -83,9 +83,13 @@ def compare_image_colour(database, filepath: str):
 
         databaseImageColourData = string_to_lists(imageDatabase[index].colourData)
         
+        if len(databaseImageColourData) == 0:
+            
+            continue
 
 
         comparisonResults[int(imageDatabase[index].number)] = mlFunctions.compare_colours(imageData, databaseImageColourData)
+    
 
     results = getHighestOfDict(comparisonResults, 3)
 
@@ -164,6 +168,11 @@ def get_image(number:str, database)->str:
         if database[index].number == str(number):
             return database[index].imagePath
 
+def showNegativeRecomendation(type, number):
+
+    print(f'The {type} is too similar to Trademark No {number}.\n It is recommended to change the image {type}\n\n')
+
+
 def main():
 
 
@@ -208,8 +217,36 @@ def main():
         
         results_string = get_results_string(True, [shapeResults, colourResults, textResults], database)
 
-        gui.show_results(tkinter, True, [shapeResults, colourResults, textResults], database)
         print(results_string)
+
+        colourThreshold = 0.9
+        layoutThreshold = 0.7
+        textThreshold = 0.6
+        neg = False
+        
+        if colourResults[0][1] > colourThreshold or shapeResults[0][1] > layoutThreshold or textResults[0][1] > textThreshold:
+            print(f'\n\n====\nRecommendation\n====\n\nThis Trademark Image will most likely not be filed, for the following reasons:\n\n')
+            neg = True
+
+        if shapeResults[0][1] > layoutThreshold:
+            showNegativeRecomendation('shape', shapeResults[0][0])
+
+
+        if colourResults[0][1] > colourThreshold:
+            showNegativeRecomendation('colour', colourResults[0][0])
+
+
+
+        if textResults[0][1] > textThreshold:
+            showNegativeRecomendation('text', textResults[0][0])
+
+        if neg == False:
+            print(f'\n\n====\nRecommendation\n====\n\nThis Trademark Image will most likely be filed.\n\n')
+
+            
+
+        gui.show_results(tkinter, True, [shapeResults, colourResults, textResults], database)
+
 
     else:
         textResults = compare_text(database, comparisonDetails[2])
@@ -217,8 +254,18 @@ def main():
         results_string = get_results_string(False, [textResults], database)
         print(results_string)
 
+        textThreshold = 0.4
+
+        if textResults[0][1] > textThreshold:
+            print(f'\n\n====\nRecommendation\n====\n\nThis Trademark Image will most likely not be filed, fot the following reasons:\n\n')
+            showNegativeRecomendation('text', textResults[0][1])
+        else:
+            print(f'\n\n====\nRecommendation\n====\n\nThis Trademark Image will most likely be filed.\n\n')
+
         gui.show_results(tkinter, False, [textResults], database)
 
 #(data_dict, isImage, [[[number, score], [number, score], [number, score]],  [],   []])
 if __name__ == '__main__':
     main()
+
+
