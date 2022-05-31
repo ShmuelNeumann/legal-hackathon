@@ -559,19 +559,13 @@ def initialise_just_text(dictionary):
     just_text_frame.pack(side=tk.TOP, anchor="w")
 
 def get_colour_results(values):
-    if values.len() == 1:
-        return None
-    else: return values[1]
+    return values[1]
 
 def get_shape_results(values):
-    if values.len() == 1:
-        return None
-    else: return values[0]
+    return values[0]
 
 def get_text_results(values):
-    if(values.len() == 1):
-        return values[0]
-    else: return values[2]
+    return values[2]
 
 def set_score_and_image(id,score,index,classification,database,interface_items):
     if classification == 'shape':
