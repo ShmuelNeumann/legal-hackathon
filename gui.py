@@ -5,7 +5,6 @@ from PIL import ImageTk,Image
 import matplotlib.pyplot as plt
 from pandas import DataFrame
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-import main_flow as mf
 from main_flow import get_image
 
 class Data:
