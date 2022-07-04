@@ -1,9 +1,9 @@
-# Law Hackathon submittion - Team 4
+# Law Hackathon submission - Team 4
 
 This is the proof of concept used by Team 4 for the 2022 Moansh LSS and Deep Neuron Hackathon.
 It is a program intended to compare a proposed trademark to the trademarks already present in the national database. (https://search.ipaustralia.gov.au/trademarks/search/quick)
 
-It runs entirely on Python, primarily using the huggingface open source module.
+It runs entirely on Python, primarily using the Huggingface open source module.
 
 In order to run the program, the following modules should be installed first:
 
