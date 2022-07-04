@@ -87,13 +87,13 @@ def initialise_tkinter():
     root = tk.Tk()
     return_dictionary['root_window'] = root
     root.title("Trademark Checking Tool")
-    root.geometry("500x500")
+    root.geometry("800x800")
 
     # SETTING UP THE DIFFERENT SCREENS IN THE APPLICATION
 
     home_page = tk.Frame(root, width=500, height=500)
     return_dictionary['home_page_frame'] = home_page
-    image_and_image_text = tk.Frame(root, width=500, height=500)
+    image_and_image_text = tk.Frame(root, width=800, height=500)
     return_dictionary['image_and_image_text_frame'] = image_and_image_text
     just_text = tk.Frame(root, width=500, height=500)
     return_dictionary['just_text_frame'] = just_text
@@ -134,64 +134,69 @@ def initialise_image_and_text(dictionary):
 
     # first part of the interface label for choose your image.
     open_image_text_label = tk.Label(image_and_image_text, text="Choose your image", font=('Helvatical bold', 16))
-    open_image_text_label.pack(side=tk.TOP, anchor="w", pady=(0, 5))
+    open_image_text_label.grid(row=0,column=0)
     dictionary['choose_image_text_label'] = open_image_text_label
 
     # second part of interface tell the user the file format.
 
-    imageText = tk.Label(image_and_image_text, text='Upload image with extension png or jpg',
-                         font=('Helvatical bold', 14))
-    imageText.pack(side=tk.TOP, anchor="w", padx=10, pady=(0, 5))
-    dictionary['image_format_text_label'] = imageText
 
     # third part is a button to upload the image file opens the file explorer.
 
     uploadButton = tk.Button(image_and_image_text, text='Upload File',
                              command=lambda: open_file(formData, canvas, scaled_image_size))
-    uploadButton.pack(side=tk.TOP, anchor="w", padx=10, pady=(0, 5))
+    uploadButton.grid(row=1,column=0)
     dictionary['upload_image_btn'] = uploadButton
+
+    # vertical formatting space
+    vertical_space_1 = tk.Label(image_and_image_text,text="")
+    vertical_space_1.grid(row=2,column=0)
 
     # create a label
     # first part of the interface label for choose your image.
     enter_image_text_label = tk.Label(image_and_image_text, text="Enter Image text", font=('Helvatical bold', 16))
-    enter_image_text_label.pack(side=tk.TOP, anchor="w", pady=(0, 5))
+    enter_image_text_label.grid(row=3,column=0)
     dictionary['enter_image_text_label'] = enter_image_text_label
 
     # create the text box for the user to enter the image text.
     text_box = tk.Text(image_and_image_text, height=1, width=40)
-    text_box.pack(side=tk.TOP, anchor="w", padx=10, pady=(0, 5))
+    text_box.grid(row=4,column=0)
     dictionary['enter_image_textbox'] = text_box
 
     # submit text button
     get_text_button = tk.Button(image_and_image_text, text='Submit Image Text',
                                 command=lambda: get_textbox_text(text_box, formData, text_label))
-    get_text_button.pack(side=tk.TOP, anchor="w", padx=10, pady=(0, 5))
+    get_text_button.grid(row=5,column=0)
     dictionary['submit_text_btn'] = get_text_button
 
-    # submit both image and text for processing
-    send_image_and_text_for_processing_btn = tk.Button(image_and_image_text, text="Send Image and Text for Processing",command=lambda: getInput(dictionary))
-    send_image_and_text_for_processing_btn.pack(side=tk.TOP, anchor="w", padx=5, pady=(0, 5))
-    dictionary['btn_submit_text_and_image'] = send_image_and_text_for_processing_btn
+
 
     # heading for displaying the chosen image
     uploaded_image_label = tk.Label(image_and_image_text, text="Current Uploaded image", font=('Helvatical bold', 16))
-    uploaded_image_label.pack(side=tk.TOP, anchor="w", pady=(0, 5))
+    uploaded_image_label.grid(row=0,column=2)
     dictionary['heading_display_chosen_image_label'] = uploaded_image_label
 
     # create the canvas for our image that has been uploaded.
     canvas = tk.Canvas(image_and_image_text, width=100, height=100)
-    canvas.pack(side=tk.TOP, anchor="w", padx=10, pady=(0, 5))
+    canvas.grid(row=2,column=2)
     dictionary['preview_image_canvas'] = canvas
+
+    vertical_space_2 = tk.Label(image_and_image_text,text="")
+    vertical_space_2.grid(row=6,column=0)
 
     uploaded_image_text_label = tk.Label(image_and_image_text, text="Current uploaded image text",
                                          font=('Helvatical bold', 16))
-    uploaded_image_text_label.pack(side=tk.TOP, anchor="w", pady=(0, 5))
+    uploaded_image_text_label.grid(row=3,column=2)
     dictionary['upload_image_text_label'] = uploaded_image_text_label
 
     text_label = tk.Label(image_and_image_text, text="", font=('Helvatical bold', 14))
-    text_label.pack(side=tk.TOP, anchor="w", padx=10, pady=(0, 5))
+    text_label.grid(row=4,column=2)
     dictionary['preview_image_text_label'] = text_label
 
+    # submit both image and text for processing
+    send_image_and_text_for_processing_btn = tk.Button(image_and_image_text, text="Send Image and Text for Processing",
+                                                       command=lambda: getInput(dictionary))
+    send_image_and_text_for_processing_btn.grid(row=8,column=1)
+    dictionary['btn_submit_text_and_image'] = send_image_and_text_for_processing_btn
 
     image_and_image_text.pack(side=tk.TOP, anchor="w")
     # JUST TEXT COMPARISON
