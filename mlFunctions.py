@@ -1,6 +1,6 @@
 from sentence_transformers import SentenceTransformer, util
 from PIL import Image
-
+from math import inf
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 import numpy as np
@@ -9,6 +9,9 @@ from collections import Counter
 from skimage.color import rgb2lab, deltaE_cie76
 from copy import deepcopy
 from math import sqrt
+
+import colorsys
+
 #### General Functions ####
 
 def compare_embeddings(embeddings1, embeddings2) -> float:
@@ -153,9 +156,19 @@ def get_image(image_path: str):
 
     image = cv2.imread(image_path)
     #This line converts the image from BGR to RGB values
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    hsvImage = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    
 
-    return image
+    return hsvImage
+
+def HSV2RGB(hsv:list):
+    normalisedHsv = [hsv[0]/179, hsv[1]/255, hsv[2]/255]
+
+    rgb = colorsys.hsv_to_rgb(normalisedHsv[0], normalisedHsv[1], normalisedHsv[2])
+
+
+
+    return [rgb[0]*255, rgb[1]*255, rgb[2]*255]
 
 def get_colours(image, number_of_colours: int, show_chart: bool)->list:
     """
@@ -172,10 +185,10 @@ def get_colours(image, number_of_colours: int, show_chart: bool)->list:
     # We first resize the image
     modified_image = cv2.resize(image, (600, 400), interpolation=cv2.INTER_AREA)
     modified_image = modified_image.reshape(modified_image.shape[0] * modified_image.shape[1], 3)
-
+    
     
 
-    # Runt the K-means algorithm. labels holds the array (?) output
+    # Run the K-means algorithm. labels holds the array (?) output
     clf = KMeans(n_clusters = number_of_colours, random_state=0)
     labels = clf.fit_predict(modified_image)
     counts = Counter(labels)
@@ -184,8 +197,9 @@ def get_colours(image, number_of_colours: int, show_chart: bool)->list:
 
     # We get the rgb and hex values of the colours as a list
     ordered_colours = [center_colours[i] for i in counts.keys()]
-    hex_colours = [RGB2HEX(ordered_colours[i]) for i in counts.keys()]
-    rgb_colours = [ordered_colours[i] for i in counts.keys()]
+    hsv_colours = [ordered_colours[i] for i in counts.keys()]
+    rgb_colours = [HSV2RGB(ordered_colours[i])  for i in counts.keys()]
+    hex_colours = [RGB2HEX(rgb_colours[i]) for i in counts.keys()]
 
     #This code displays the pie chart, if required.
     if (show_chart):
@@ -193,6 +207,8 @@ def get_colours(image, number_of_colours: int, show_chart: bool)->list:
         plt.pie(counts.values(), labels = hex_colours, colors = hex_colours)
         plt.show()
     
+    
+
     # This wil be our output list
     colour_stats = []
 
@@ -200,8 +216,10 @@ def get_colours(image, number_of_colours: int, show_chart: bool)->list:
     for i in counts.keys():
         colour_stat = {}
         colour_stat['rgb'] = list(rgb_colours[i]) #What are the rgb values (list of floats)
+        colour_stat['hsv'] = list(hsv_colours[i]) #What are the rgb values (list of floats)
         colour_stat['value'] = counts[i] #how many pixels are in the cluster (int)
         colour_stat['hex'] = hex_colours[i] # WHat is the hex code of the colour (str)
+        
         colour_stats.append(colour_stat)
 
 
@@ -217,9 +235,9 @@ def not_white_or_black(colour: list) -> bool:
             True if the colour is not close to Black or White, False if it is.
     """
 
-    if colour[0] > 200 and colour[1] > 240 and colour[2] > 200:
+    if colour[1] < 50:
         return False
-    elif colour[0] < 50 and colour[1] < 50 and colour[2] < 50:
+    elif colour[2] < 50:
         return False
     else:
         return True
@@ -236,7 +254,8 @@ def remove_shades(colourData: list, show_chart: bool)->list:
     """
 
     #This filter removes any colours that done return true from the not_white_or_black() function
-    modified_data = list(filter(lambda colour : not_white_or_black(colour['rgb']), colourData))
+
+    modified_data = list(filter(lambda colour : not_white_or_black(colour['hsv']), colourData))
 
     # display the pie chart, if required
     if (show_chart):
@@ -244,6 +263,7 @@ def remove_shades(colourData: list, show_chart: bool)->list:
 
         values = [colour['value'] for colour in modified_data]
         hexs = [colour['hex'] for colour in modified_data]
+        rgb = [colour['rgb'] for colour in modified_data]
 
         plt.pie(values, labels= hexs, colors= hexs)
         plt.show()
@@ -278,8 +298,8 @@ def weigh_data(data: list)->list:
     #For each colour, multiply each of the rgb values by the proportion of pixels in the image.
     for index in range(len(data)):
     
-        rgb = list(map(lambda value: value * weightedValues[index], weightedData[index]['rgb']))
-        weightedData[index] = rgb
+        hsv = list(map(lambda value: value * weightedValues[index], weightedData[index]['hsv']))
+        weightedData[index] = hsv
 
 
     return weightedData
@@ -400,6 +420,9 @@ def run_image_colour_compare():
     
     data1 = preproccess_image_colours(path1, 5)
     data2 = preproccess_image_colours(path2, 5)
+
+    if data1 == [] or data2 == []:
+        return inf 
 
     difference = compare_colours(data1, data2)
 

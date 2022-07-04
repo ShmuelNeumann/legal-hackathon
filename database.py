@@ -27,15 +27,15 @@ def preprocess_database(databasePath, currentPath):
     
     databaseFile = openpyxl.load_workbook(databasePath)
 
-    database = databaseFile['Test']
+    database = databaseFile['100']
     image_loader = SheetImageLoader(database)
 
 
 
     entries = []    
 
-    for index in range(5,  23):
-        print(f'Preprocessing Entry {index-4} out of {18}')
+    for index in range(5,  105):
+        print(f'Preprocessing Entry {index-4} out of {100}')
         number = database[f'A{index}'].value
         irNumber = database[f'B{index}'].value
         if irNumber == None:
@@ -63,7 +63,6 @@ def preprocess_database(databasePath, currentPath):
         status = database[f'E{index}'].value
         classes = str(database[f'F{index}'].value)
 
-        #print([number, irNumber, saveLocation, words, status, classes, str(colourData)])
 
         dataEntryString = "~".join([number, irNumber, saveLocation, words, status, classes, str(colourData)])
         entries.append(DatabaseEntry(dataEntryString))

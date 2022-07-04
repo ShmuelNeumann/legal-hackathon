@@ -1,24 +1,28 @@
 import mlFunctions
+import tkinter
+
+import gui
+
+
 
 #### Functions
 
 # function for processing the 3 main pieces that make up an image, colour, shape, and text.
 
 
-def compare_image_shape(database, filepath: str):
+def compare_image_shape(database, filepath: str, shapeModel):
+
+    print("\n====\nRunning Image Shape ML Algorithm\n====\n")
 
     imageDatabase = list(filter(lambda entry: entry.imagePath != 'None', database))
 
-    print("\n====\nInitialising Image Shape ML Algorithm\n====\n")
-    model = mlFunctions.init_shape_image_compare()
-
     comparisonResults = {}
-    imageEmbedding = mlFunctions.encode_image_shape(model, filepath)
+    imageEmbedding = mlFunctions.encode_image_shape(shapeModel, filepath)
 
     for index in range(len(imageDatabase)):
         print(f'Comparing image {index+1} out of {len(imageDatabase)}')
 
-        databaseImageEmbedding = mlFunctions.encode_image_shape(model, imageDatabase[index].imagePath)
+        databaseImageEmbedding = mlFunctions.encode_image_shape(shapeModel, imageDatabase[index].imagePath)
 
 
         comparisonResults[imageDatabase[index].number] = float(mlFunctions.compare_embeddings(databaseImageEmbedding, imageEmbedding))
@@ -27,18 +31,17 @@ def compare_image_shape(database, filepath: str):
 
     return results
 
-def compare_text(database, text: str):
+def compare_text(database, text: str, textModel):
 
-    print("\n====\nInitialising Text ML Algorithm\n====\n")
-    model = mlFunctions.init_text_encoding()
+    print("\n====\nRunning Text Comparison ML Algorithm\n====\n")
 
     comparisonResults = {}
-    imageEmbedding = mlFunctions.encode_text(model, text)
+    imageEmbedding = mlFunctions.encode_text(textModel, text)
 
     for index in range(len(database)):
         print(f'Comparing text {index+1} out of {len(database)}')
 
-        databaseImageEmbedding = mlFunctions.encode_text(model, database[index].words)
+        databaseImageEmbedding = mlFunctions.encode_text(textModel, database[index].words)
 
 
         comparisonResults[database[index].number] = float(mlFunctions.compare_embeddings(databaseImageEmbedding, imageEmbedding))
@@ -47,20 +50,19 @@ def compare_text(database, text: str):
 
     return results
 
-def compare_image_text(database, text: str):
+def compare_image_text(database, text: str, textModel):
+
+    print("\n====\nRunning Text Comparison ML Algorithm\n====\n")
 
     imageDatabase = list(filter(lambda entry: entry.imagePath != 'None', database))
 
-    print("\n====\nInitialising Image Text ML Algorithm\n====\n")
-    model = mlFunctions.init_text_encoding()
-
     comparisonResults = {}
-    imageEmbedding = mlFunctions.encode_text(model, text)
+    imageEmbedding = mlFunctions.encode_text(textModel, text)
 
     for index in range(len(imageDatabase)):
         print(f'Comparing image {index+1} out of {len(imageDatabase)}')
 
-        databaseImageEmbedding = mlFunctions.encode_text(model, imageDatabase[index].words)
+        databaseImageEmbedding = mlFunctions.encode_text(textModel, imageDatabase[index].words)
 
 
         comparisonResults[imageDatabase[index].number] = float(mlFunctions.compare_embeddings(databaseImageEmbedding, imageEmbedding))
@@ -73,7 +75,7 @@ def compare_image_colour(database, filepath: str):
 
     imageDatabase = list(filter(lambda entry: entry.imagePath != 'None', database))
 
-    print("\n====\nInitialising Image Colour ML Algorithm\n====\n")
+    print("\n====\nRunning Image Colour ML Algorithm\n====\n")
     imageData = mlFunctions.preproccess_image_colours(filepath, 5)
 
     comparisonResults = {}
@@ -175,15 +177,22 @@ def showNegativeRecomendation(type, number):
 
 def main():
 
+    print("\n====\nInitialising Program\n====\n")
+
+    print("\n====\nInitialising Image Shape ML Algorithm\n====\n")
+    shapeModel = mlFunctions.init_shape_image_compare()
+    print("\n====\nInitialising Text ML Algorithm\n====\n")
+    textModel = mlFunctions.init_text_encoding()
+
+    input('Press enter to begin:')
 
     
     #### Main Program ####
 
 
     print("\n====\nSearching for Preprocessed Database\n====\n")
-
-    import tkinter
     import database
+
 
     #Check if the database needs to be indexed
     if database.checkDatabaseIndexing() == False:
@@ -192,7 +201,7 @@ def main():
         database.indexDatabase()
         print("\n====\nPreprocessing Complete\n====\n")
 
-    import gui
+    
 
     print("\n====\nAccessing Database\n====\n")
 
@@ -209,11 +218,11 @@ def main():
     if comparisonDetails[0] == True:
 
         
-        shapeResults = compare_image_shape(database, comparisonDetails[1])
+        shapeResults = compare_image_shape(database, comparisonDetails[1], shapeModel)
 
         colourResults = compare_image_colour(database, comparisonDetails[1])
 
-        textResults = compare_image_text(database, comparisonDetails[2])
+        textResults = compare_image_text(database, comparisonDetails[2], textModel)
         
         results_string = get_results_string(True, [shapeResults, colourResults, textResults], database)
 
@@ -249,7 +258,7 @@ def main():
 
 
     else:
-        textResults = compare_text(database, comparisonDetails[2])
+        textResults = compare_text(database, comparisonDetails[2], textModel)
 
         results_string = get_results_string(False, [textResults], database)
         print(results_string)
