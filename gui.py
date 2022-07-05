@@ -367,7 +367,7 @@ def show_results(dictionary,isImage,values,database):
         results_frame.pack(side=tk.TOP, anchor="w")
 
         # CREATE THE CANVASES FOR THE IMAGES
-        # FIRST IMAGE HERE
+        # FIRST IMAGE IS HERE
         first_space = tk.Label(results_frame, text="", font=('Helvatical bold', 12))
         first_space.grid(row=0, column=1)
 
