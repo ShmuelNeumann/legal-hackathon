@@ -172,12 +172,12 @@ def initialise_image_and_text(dictionary):
 
     # heading for displaying the chosen image
     uploaded_image_label = tk.Label(image_and_image_text, text="Current Uploaded image", font=('Helvatical bold', 16))
-    uploaded_image_label.grid(row=0,column=2)
+    uploaded_image_label.grid(row=0,column=1)
     dictionary['heading_display_chosen_image_label'] = uploaded_image_label
 
     # create the canvas for our image that has been uploaded.
     canvas = tk.Canvas(image_and_image_text, width=100, height=100)
-    canvas.grid(row=2,column=2)
+    canvas.grid(row=2,column=1)
     dictionary['preview_image_canvas'] = canvas
 
     vertical_space_2 = tk.Label(image_and_image_text,text="")
@@ -185,17 +185,17 @@ def initialise_image_and_text(dictionary):
 
     uploaded_image_text_label = tk.Label(image_and_image_text, text="Current uploaded image text",
                                          font=('Helvatical bold', 16))
-    uploaded_image_text_label.grid(row=3,column=2)
+    uploaded_image_text_label.grid(row=3,column=1)
     dictionary['upload_image_text_label'] = uploaded_image_text_label
 
     text_label = tk.Label(image_and_image_text, text="", font=('Helvatical bold', 14))
-    text_label.grid(row=4,column=2)
+    text_label.grid(row=4,column=1)
     dictionary['preview_image_text_label'] = text_label
 
     # submit both image and text for processing
     send_image_and_text_for_processing_btn = tk.Button(image_and_image_text, text="Send Image and Text for Processing",
                                                        command=lambda: getInput(dictionary))
-    send_image_and_text_for_processing_btn.grid(row=8,column=1)
+    send_image_and_text_for_processing_btn.grid(row=9,column=1)
     dictionary['btn_submit_text_and_image'] = send_image_and_text_for_processing_btn
 
     image_and_image_text.pack(side=tk.TOP, anchor="w")
