@@ -1,8 +1,11 @@
 # LSS X MDN Legal Hackathon Prototype
 ## Overview
 **Starting Date:** 14th May, 2022
+
 **Project Completion:** Jul 6, 2022
+
 **Motivation:** Self-motivated in order to learn about AI
+
 **Status:** Complete
 
 This was the prototype developed for the winning LSS X MDN Legal Hackathon pitch. It is designed to evaluate a new trademark to see if it is too similar to existing trademarks, and utilised multiple Machine Learning (ML) models.
@@ -51,6 +54,7 @@ This prototype only compares 100 entries from the registry, exported in Excel fo
 ![The excel and processed databases](https://onedrive.live.com/embed?resid=BE406011F5E2A3C1!485515&authkey=!AMdms6zXIHrAP0Q&width=1800&height=696)
 
 The embeddings from the image that is being evaluated are compared to each pre-processed entry in the database, and for each category (shape, colour, and text) a similarity value from 0 to 1 is generated. The three highest similarity values for each category is displayed for the user, along with the relevant image and trademark number.
+
 ![The results window](https://onedrive.live.com/embed?resid=BE406011F5E2A3C1!485520&authkey=!AGg1EEnWdvhsnbk&width=500&height=500)
 
 ## Results
@@ -67,5 +71,7 @@ Please note that the program can take a while to execute, particularly on the fi
 ## Further Links
 
 [Slide deck from the pitch presentation](https://1drv.ms/b/s!AsGj4vURYEC-ndEafrvk4byz1Sd9XQ?e=CxdBRw)
+
 [Written Submission for the pitch](https://1drv.ms/b/s!AsGj4vURYEC-ndEZhCl0h22xevGo2Q?e=DnoXV3)
- [Video of pitch presentation](https://www.facebook.com/monashlss.postgraduate/videos/1195380771221417) (Low quality, starts at 1:13:00)
+
+[Video of pitch presentation](https://www.facebook.com/monashlss.postgraduate/videos/1195380771221417) (Low quality, starts at 1:13:00)
