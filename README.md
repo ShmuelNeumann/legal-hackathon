@@ -1,4 +1,5 @@
 # LSS X MDN Legal Hackathon Prototype
+The winning AI pitch for the 2023 Hackathon
 ## Overview
 **Starting Date:** 14th May, 2022
 
