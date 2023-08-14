@@ -3,7 +3,7 @@ from tkinter.filedialog import askopenfile
 import cv2
 from PIL import ImageTk,Image
 import matplotlib.pyplot as plt
-from main_flow import get_image
+from main import get_image
 
 class Data:
     """
