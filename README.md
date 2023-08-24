@@ -3,7 +3,7 @@ The winning AI pitch for the 2023 Hackathon
 ## Overview
 **Starting Date:** 14th May, 2022
 
-**Project Completion:** Jul 6, 2022
+**Project Completion:** 6th July, 2022
 
 **Motivation:** Self-motivated in order to learn about AI
 
